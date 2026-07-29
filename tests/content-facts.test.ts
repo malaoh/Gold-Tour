@@ -1,30 +1,33 @@
 import { describe, expect, it } from 'vitest'
 import {
   confirmed,
+  isPlaceholder,
   isPublishable,
   pending,
+  placeholder,
   prohibited,
   publishable,
+  type Fact,
 } from '@/content/schema'
 import { siteContent } from '@/content/site-content'
 
 describe('Fact', () => {
-  it('devolve o valor quando confirmado', () => {
+  it('publica valor confirmado', () => {
     expect(publishable(confirmed('Salvador', 'contrato'))).toBe('Salvador')
   })
 
-  it('devolve null quando pendente', () => {
-    expect(publishable(pending('B-02'))).toBeNull()
+  it('publica placeholder aprovado', () => {
+    expect(publishable(placeholder('provisório', 'B-06'))).toBe('provisório')
   })
 
-  it('devolve null quando proibido', () => {
+  it('não publica pendente nem proibido', () => {
+    expect(publishable(pending('B-02'))).toBeNull()
     expect(publishable(prohibited('D-005', 'baixa resolução'))).toBeNull()
   })
 
-  it('isPublishable estreita o tipo apenas para confirmado', () => {
-    const fact = confirmed(42, 'operação')
-    expect(isPublishable(fact)).toBe(true)
-    expect(isPublishable(pending('B-12'))).toBe(false)
+  it('isPlaceholder separa provisório de confirmado', () => {
+    expect(isPlaceholder(placeholder(1, 'B-12'))).toBe(true)
+    expect(isPlaceholder(confirmed(1, 'operação'))).toBe(false)
   })
 })
 
@@ -38,21 +41,54 @@ describe('site-content — invariantes do contrato', () => {
     ])
   })
 
-  it('nenhuma categoria de frota expõe capacidade ou comodidade não confirmada', () => {
-    for (const vehicle of siteContent.fleet) {
-      expect(publishable(vehicle.passengerCapacity)).toBeNull()
-      expect(publishable(vehicle.amenities)).toBeNull()
-    }
-  })
-
   it('nenhum serviço expõe preço', () => {
     for (const service of siteContent.services) {
       expect(publishable(service.pricing)).toBeNull()
     }
   })
 
-  it('nenhuma resposta de FAQ é publicada sem confirmação', () => {
-    const publicadas = siteContent.faq.filter((item) => isPublishable(item.answer))
-    expect(publicadas).toHaveLength(0)
+  it('mídia vetada nunca é publicada', () => {
+    const vetadas = siteContent.fleet.filter((v) => v.media.status === 'prohibited')
+    expect(vetadas.length).toBeGreaterThan(0)
+    for (const vehicle of vetadas) {
+      expect(publishable(vehicle.media)).toBeNull()
+    }
+  })
+
+  it('acessibilidade nunca é afirmada sem confirmação da operação', () => {
+    for (const vehicle of siteContent.fleet) {
+      expect(publishable(vehicle.accessibility)).toBeNull()
+    }
+  })
+
+  it('todo placeholder aponta a pendência que vai substituí-lo', () => {
+    const facts: Fact<unknown>[] = [
+      siteContent.contact.whatsapp,
+      siteContent.contact.email,
+      siteContent.contact.address,
+      siteContent.contact.social,
+      siteContent.contact.businessHours,
+      ...siteContent.fleet.flatMap((v) => [
+        v.passengerCapacity,
+        v.luggageCapacity,
+        v.amenities,
+      ]),
+      ...siteContent.services.flatMap((s) => [s.longDescription, s.includes]),
+      ...siteContent.faq.map((f) => f.answer),
+    ]
+
+    for (const fact of facts) {
+      if (isPlaceholder(fact)) {
+        expect(fact.replaces).toMatch(/^B-\d+$/)
+      }
+    }
+  })
+
+  it('todo dado publicado é confirmado ou placeholder rastreado', () => {
+    for (const service of siteContent.services) {
+      if (isPublishable(service.longDescription)) {
+        expect(['confirmed', 'placeholder']).toContain(service.longDescription.status)
+      }
+    }
   })
 })

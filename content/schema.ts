@@ -10,7 +10,7 @@
  * Os status são metadados internos. Nenhum deles é renderizado.
  */
 
-export type VeracityStatus = 'confirmed' | 'pending' | 'prohibited'
+export type VeracityStatus = 'confirmed' | 'placeholder' | 'pending' | 'prohibited'
 
 /** Dado confirmado pela operação, com fonte rastreável. */
 export type ConfirmedFact<T> = {
@@ -18,6 +18,21 @@ export type ConfirmedFact<T> = {
   value: T
   /** De onde veio: quem informou, documento, data. */
   source: string
+}
+
+/**
+ * Valor provisório aprovado pelo proprietário para o site ir ao ar antes do
+ * dado definitivo. **É exibido ao visitante** — a diferença para `confirmed` é
+ * que ele aparece no relatório de placeholders e precisa ser trocado antes do
+ * lançamento. Não use para nada que possa enganar quem contrata: preço,
+ * capacidade, prazo, avaliação ou disponibilidade continuam proibidos.
+ */
+export type PlaceholderFact<T> = {
+  status: 'placeholder'
+  value: T
+  /** Id em docs/content-needs.md do dado real que vai substituir este. */
+  replaces: string
+  note?: string
 }
 
 /** Dado que ainda não existe. Nunca é exibido; vira pendência em content-needs. */
@@ -36,12 +51,23 @@ export type ProhibitedFact = {
   reason: string
 }
 
-export type Fact<T> = ConfirmedFact<T> | PendingFact | ProhibitedFact
+export type Fact<T> = ConfirmedFact<T> | PlaceholderFact<T> | PendingFact | ProhibitedFact
 
 export const confirmed = <T>(value: T, source: string): ConfirmedFact<T> => ({
   status: 'confirmed',
   value,
   source,
+})
+
+export const placeholder = <T>(
+  value: T,
+  replaces: string,
+  note?: string,
+): PlaceholderFact<T> => ({
+  status: 'placeholder',
+  value,
+  replaces,
+  note,
 })
 
 export const pending = (blocker: string, note?: string): PendingFact => ({
@@ -57,16 +83,23 @@ export const prohibited = (decision: string, reason: string): ProhibitedFact => 
 })
 
 /**
- * Único caminho de leitura de um `Fact`. Devolve `null` para tudo que não
- * estiver confirmado, de modo que a interface simplesmente omita a afirmação
- * em vez de exibir placeholder.
+ * Único caminho de leitura de um `Fact`. Devolve o valor quando ele é
+ * publicável (confirmado ou placeholder aprovado) e `null` quando o dado não
+ * existe ou foi vetado — nesse caso a interface omite a afirmação inteira em
+ * vez de mostrar texto genérico.
  */
 export function publishable<T>(fact: Fact<T>): T | null {
-  return fact.status === 'confirmed' ? fact.value : null
+  return fact.status === 'confirmed' || fact.status === 'placeholder' ? fact.value : null
 }
 
-export const isPublishable = <T>(fact: Fact<T>): fact is ConfirmedFact<T> =>
-  fact.status === 'confirmed'
+export const isPublishable = <T>(
+  fact: Fact<T>,
+): fact is ConfirmedFact<T> | PlaceholderFact<T> =>
+  fact.status === 'confirmed' || fact.status === 'placeholder'
+
+/** Placeholder ainda por trocar. Usado pelo relatório de pré-lançamento. */
+export const isPlaceholder = <T>(fact: Fact<T>): fact is PlaceholderFact<T> =>
+  fact.status === 'placeholder'
 
 // ---------------------------------------------------------------------------
 // Mídia

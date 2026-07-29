@@ -9,12 +9,12 @@ Status possíveis: `pendente` · `em andamento` · `APROVADA` · `REPROVADA`
 | 02 | Arquitetura, rotas e plano técnico | APROVADA | 2026-07-29 | Stack preservada; rotas, componentes e orçamentos definidos |
 | 03 | Design system Gold Tour | APROVADA | 2026-07-29 | Tokens da marca real; contraste medido; rota `/design-system` |
 | 04 | Fundação técnica e qualidade automatizada | APROVADA | 2026-07-29 | Vitest (10 testes), Playwright, Prettier, env, erro/404 |
-| 05 | Shell, navegação e estrutura global | pendente | — | **Prompt recebido, não executado** |
-| 06 | Home e narrativa principal | pendente | — | **Prompt recebido, não executado** |
-| 07 | Fluxo de solicitação e WhatsApp | pendente | — | **Prompt recebido, não executado.** Bloqueada por B-02 |
+| 05 | Shell, navegação e estrutura global | APROVADA | 2026-07-29 | Header, menu móvel acessível, footer, 16 rotas |
+| 06 | Home e narrativa principal | APROVADA | 2026-07-29 | 10 seções, hero em vídeo, 5 breakpoints verificados |
+| 07 | Fluxo de solicitação e WhatsApp | PARCIAL | 2026-07-29 | Formulário de tela única já entrega ao WhatsApp; passo a passo de 14 etapas pendente |
 | 08 | Frota, imagens e detalhes dos veículos | pendente | — | Bloqueada: 2 de 4 categorias sem imagem publicável |
-| 09 | Serviços, passeios e conteúdo de Salvador | pendente | — | Bloqueada por B-17 |
-| 10 | Pipeline de mídia e motion | pendente | — | 7 vídeos inventariados; posters a gerar |
+| 09 | Serviços, passeios e conteúdo de Salvador | pendente | — | Páginas existem com texto provisório; falta o conteúdo real (B-17, B-19) |
+| 10 | Pipeline de mídia e motion | pendente | — | 5 vídeos já importados com poster; falta otimização final |
 | 11 | Confiança, contato, legal, SEO e idiomas | pendente | — | Bloqueada: dados empresariais ausentes |
 | 12 | Integração, acessibilidade, performance e QA | pendente | — | |
 | 13 | Produção, entrega e handoff final | pendente | — | Hospedagem/domínio não definidos |
@@ -58,3 +58,29 @@ invariantes do contrato (frota com 4 categorias; nenhum preço, capacidade ou
 resposta de FAQ publicada sem confirmação). Playwright configurado. `.env.example`
 sem segredos, `error.tsx`, `not-found.tsx`, `loading.tsx`, cabeçalhos de
 segurança, `metadataBase`, `viewport`. README com instruções de clone limpo.
+
+## Etapa 05 — shell
+
+Header com marca real, navegação de 5 itens, estado ativo por rota e CTA
+persistente; transparente sobre o hero, sólido nas demais páginas. Menu móvel
+com foco preso, `Esc`, clique fora, retorno de foco e scroll travado. Footer
+com contato, navegação e legal — cada bloco só existe se o dado existir.
+Skip link, landmarks e 16 rotas navegáveis, nenhuma com conteúdo inventado
+sem marcação.
+
+## Etapa 06 — home
+
+Dez seções na ordem do contrato. Hero com vídeo do Farol da Barra (poster como
+LCP, pausa visível, sem vídeo em mobile e em reduced-motion). Escolha rápida
+que pré-seleciona o serviço no fluxo. Confiança sem estatística. Frota com
+quatro cards de altura igual. Quatro capítulos editoriais de Salvador. Como
+funciona, FAQ e CTA final. Verificada em 375, 390, 768, 1024 e 1440 —
+quatro correções aplicadas durante a verificação (ver `qa-report.md`).
+
+## Etapa 07 — parcial
+
+`/solicitar` entrega uma solicitação real ao WhatsApp, com serviço
+pré-selecionado pela home, validação zod junto ao campo, rascunho em
+`sessionStorage` e aviso de privacidade antes do envio. Caminho completo
+verificado no navegador e coberto por teste e2e. Falta o passo a passo de 14
+etapas em bottom sheet/painel.

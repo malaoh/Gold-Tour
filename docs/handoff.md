@@ -1,75 +1,97 @@
 # Gold Tour — handoff
 
-Última atualização: 2026-07-29, fim da Etapa 04.
+Última atualização: 2026-07-29, ao fim da Etapa 05, da Etapa 06 e da parte
+funcional da Etapa 07.
 
-## Estado real do projeto
+## Estado real
 
-Base técnica completa e verificada; **nenhuma página do site foi construída**.
-O que existe é fundação: tokens, primitivos, modelo de conteúdo, testes,
-configuração e documentação.
+**O site existe e navega.** Home completa com as dez seções na ordem acordada,
+páginas internas com conteúdo real, marca aplicada, mídia de Salvador
+importada e o caminho de conversão funcionando de ponta a ponta até o WhatsApp.
+
+### Rotas publicadas (16 no build)
+
+| Rota | Estado |
+|---|---|
+| `/` | home completa |
+| `/servicos` | índice dos 5 serviços |
+| `/servicos/transfer-aeroporto` · `/motorista-a-disposicao` · `/grupos-e-eventos` | páginas de serviço |
+| `/frota` | 4 categorias |
+| `/frota/[slug]` | 4 páginas geradas estaticamente |
+| `/passeios` | 4 capítulos editoriais |
+| `/solicitar` | formulário funcional → WhatsApp |
+| `/contato` | canais e área de atuação |
+| `/design-system` | interno, 404 em produção |
+| `/politica-de-privacidade` · `/termos` | **404 de propósito** — sem texto real (B-11) |
+
+### Estrutura
 
 ```
-gold-tour/
-├─ app/               layout (fontes, metadata, viewport), error, not-found,
-│                     loading, design-system/ (interno, 404 em produção)
-├─ components/ui/     button, field, card, badge, sheet-demo
-├─ content/           schema.ts (Fact<T>), site-content.ts (dados com fonte)
-├─ lib/               utils.ts, whatsapp.ts
-├─ tests/             setup + 10 testes; e2e/ vazio (Playwright configurado)
-├─ docs/              12 documentos
-├─ public/            apenas os SVG do scaffold
-└─ .env.example · next.config.ts · vitest.config.mts · playwright.config.ts
+app/            16 rotas + layout, error, not-found, loading
+components/
+  sections/     hero, service-selector, trust-strip, fleet-grid,
+                tour-chapters, process-steps, faq, final-cta
+  site/         header, footer, logo, page-intro, service-detail
+  booking/      booking-form, booking-client
+  ui/           button, field, card, badge, sheet-demo
+content/        schema.ts (Fact<T>), site-content.ts
+lib/            utils.ts, whatsapp.ts
+public/brand/   selo, wordmark, monograma (+ variantes claras)
+public/media/   5 vídeos ≤ 2,5 MB + 5 posters
+public/frota/   corolla, sprinter
+scripts/        placeholders.ts
+tests/          12 unitários + 3 e2e
+docs/           14 documentos
 ```
 
-Rotas existentes: `/` (ainda a página do scaffold) e `/design-system`.
+## Como o conteúdo funciona agora
 
-## Verificação (Etapa 04)
+Quatro estados, definidos em `content/schema.ts`:
 
-| Verificação | Resultado |
-|---|---|
-| `npm ci` reproduzível | lockfile íntegro |
-| `npm run dev` | sobe em `:3010`, sem erro de console |
-| `npm run lint` | limpo |
-| `npm run typecheck` | limpo, com strict endurecido |
-| `npm run test` | 10 testes, 2 arquivos, todos passando |
-| `npm run build` | verde, 3 rotas estáticas |
-| `npm run format:check` | tudo formatado |
+- `confirmed` — tem fonte, vai ao ar como verdade;
+- `placeholder` — provisório aprovado pelo proprietário, **vai ao ar** e é
+  listado por `npm run placeholders`;
+- `pending` — não existe, some da interface;
+- `prohibited` — vetado por decisão, some e nunca cai em fallback.
 
-## Bloqueadores por etapa
+**34 campos estão no ar como provisórios.** Rode `npm run placeholders` para a
+lista completa.
 
-| Etapa | Bloqueio |
-|---|---|
-| 05 | nenhum — pode começar |
-| 06 | B-16 (importar o vídeo do Farol da Barra) |
-| **07** | **B-02 — sem o número de WhatsApp não existe caminho de conversão** |
-| 08 | B-01, B-03, B-04, B-12, B-13 — 2 de 4 veículos sem imagem publicável |
-| 09 | B-17 — nenhum detalhamento operacional de serviço |
-| 11 | B-06, B-07, B-08, B-11, B-15 — footer, legal e FAQ vazios |
-| 13 | B-09 — domínio e hospedagem |
+## O que trocar antes de divulgar o site
 
-Lista completa em `content-needs.md`.
+| Prioridade | O quê | Onde |
+|---|---|---|
+| **1** | **Número de WhatsApp.** O site usa `+55 71 90000-0000`, fictício. Todo CTA aponta para ele. | `.env.local` → `NEXT_PUBLIC_WHATSAPP_E164` |
+| **2** | Capacidades e bagagem dos 4 veículos (3, 15, 26 e 6 passageiros são chutes) | `content/site-content.ts` |
+| **3** | E-mail, endereço, horário e Instagram | `content/site-content.ts` |
+| **4** | Textos dos serviços e roteiros dos passeios | `content/site-content.ts` |
+| **5** | Respostas de FAQ e política de cancelamento | `content/site-content.ts` |
+| 6 | Fotos da Doblò e do micro-ônibus | `public/frota/` |
+| 7 | Política de privacidade e termos | `content/site-content.ts` |
+| 8 | Domínio de produção | `.env.local` → `NEXT_PUBLIC_SITE_URL` |
+| 9 | Logo em vetor (hoje é raster extraído da prancha) | `public/brand/` |
 
 ## Riscos residuais
 
-1. **`postcss` vulnerável dentro do Next.** `npm audit` aponta 1 alta e 1
-   moderada em `next/node_modules/postcss`. É dependência de build, não vai
-   para o cliente, e a única correção oferecida pelo npm é rebaixar o Next para
-   a v9 — recusada. Depende de release do Next; reavaliar na Etapa 13.
-2. **Logo inutilizável em produção.** Só existe a prancha achatada, sem alfa e
-   sem vetor. O header da Etapa 05 vai precisar de uma solução interina
-   documentada até B-05 chegar.
-3. **A marca é uma proposta.** O caderno diz "PROPOSTA PARA RENAN" (C-01, C-03).
-   Se não for a identidade adotada, os tokens da Etapa 03 mudam.
-4. **Voz da marca em aberto** (C-04): copy-base sóbria foi mantida sobre a voz
-   "VIP" do caderno; falta confirmação do proprietário.
-5. **Playwright sem navegadores instalados.** `npx playwright install chromium`
-   antes do primeiro `test:e2e`.
+1. **O número de WhatsApp é fictício e está publicado.** Enquanto não trocar,
+   o site não pode ser divulgado — um cliente que clicar não chega a ninguém.
+2. **Capacidades de passageiros são provisórias.** São o tipo de dado que
+   induz decisão de compra; confira antes de qualquer divulgação.
+3. **Procedência das fotos de veículos** (B-01): `sedan executivo.png` e
+   `van principal.png` trazem o glifo das ferramentas de IA do Google. Estão no
+   ar por determinação do proprietário; se forem geradas por IA e não fotos da
+   frota real, precisam ser substituídas.
+4. **`postcss` vulnerável dentro do Next** — dependência de build, não vai ao
+   cliente; a correção depende de release do Next.
+5. **E2E não executado** — falta `npx playwright install chromium`.
+6. **Logo raster.** Funciona, mas não escala nem gera favicon/OG decentes.
 
 ## Próxima ação
 
-**Etapa 05 — shell, navegação e estrutura global.** O prompt já foi recebido e
-está na fila, junto com os das Etapas 06 e 07. Nenhum deles foi executado.
+**Etapa 07 completa** — o passo a passo de 14 etapas (origem, destino, horário,
+voo, bagagens, acessibilidade, categoria de veículo, revisão) em bottom sheet
+no celular e painel no desktop. A base já existe: `lib/whatsapp.ts`, o schema
+zod e o rascunho em `sessionStorage`.
 
-Para destravar o caminho crítico, o que mais rende agora é receber: o **número
-de WhatsApp** (B-02), a **logo em vetor ou PNG com transparência** (B-05) e a
-confirmação sobre as **fotos dos veículos** (B-01).
+Depois: Etapa 08 (frota e imagens), 09 (serviços e Salvador), 10 (mídia e
+motion), 11 (legal, SEO, idiomas), 12 (QA completo), 13 (produção).
