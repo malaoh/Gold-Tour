@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   Gold Tour — design tokens (Etapa 03)
+
+   Paleta oficial: caderno de marca, p. 03.
+   Grafite #1C1F23 · Ouro Champagne #C8A96A · Off-White #F7F5F0 · Marinho #0B1D33
+
+   Regra que governa o uso do ouro: sobre Off-White ele tem 2,1:1 e reprova
+   qualquer critério WCAG. Por isso existem dois dourados — `gold` para
+   superfícies escuras e ornamento, `gold-ink` (5,5:1 no claro) para texto,
+   link e botão em superfície clara. Ver docs/design-system.md.
+   ========================================================================== */
+
+@theme {
+  /* ---- Marca ---- */
+  --color-graphite: #1c1f23;
+  --color-navy: #0b1d33;
+  --color-gold: #c8a96a;
+  --color-offwhite: #f7f5f0;
+
+  /* Derivados acessíveis — não são cores de marca, são ferramentas */
+  --color-gold-ink: #7a5f28; /* 5,52:1 sobre off-white */
+  --color-gold-soft: #e0cb9c; /* ornamento sobre marinho */
+  --color-navy-deep: #071624; /* superfície mais profunda */
+  --color-navy-raised: #12283f; /* elevação sobre marinho */
+  --color-ivory-sunken: #ece8df; /* superfície rebaixada no claro */
+
+  /* ---- Semânticas: tema claro (padrão) ---- */
+  --color-surface: var(--color-offwhite);
+  --color-surface-raised: #fdfcfa;
+  --color-surface-sunken: var(--color-ivory-sunken);
+  --color-surface-inverse: var(--color-navy);
+
+  --color-text: var(--color-graphite); /* 15,2:1 */
+  --color-text-muted: #4d5560; /* 8,0:1 */
+  --color-text-inverse: var(--color-offwhite);
+  --color-text-accent: var(--color-gold-ink); /* 5,5:1 */
+
+  --color-border: #ddd7cc; /* separador decorativo */
+  --color-border-strong: #867e70; /* 3,68:1 — borda de campo e controle */
+
+  --color-action: var(--color-gold);
+  --color-on-action: var(--color-graphite); /* 7,35:1 sobre o ouro */
+  --color-focus: var(--color-navy);
+
+  --color-success: #1e6b4e;
+  --color-error: #b42318;
+
+  /* ---- Tipografia ---- */
+  --font-display: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Escala fluida — mínimo em 375px, máximo em 1440px */
+  --text-xs: clamp(0.75rem, 0.72rem + 0.13vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.85rem + 0.12vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem); /* nunca abaixo de 16px */
+  --text-lg: clamp(1.125rem, 1.06rem + 0.28vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.24rem + 0.57vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.48rem + 1.13vw, 2.5rem);
+  --text-3xl: clamp(2.125rem, 1.66rem + 1.98vw, 3.5rem);
+  --text-4xl: clamp(2.5rem, 1.71rem + 3.37vw, 4.5rem);
+
+  /* ---- Espaçamento (base 4px) ---- */
+  --spacing: 0.25rem;
+
+  /* ---- Raios ---- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* ---- Sombras: discretas, quentes, nunca coloridas de roxo ---- */
+  --shadow-sm: 0 1px 2px rgb(11 29 51 / 0.06);
+  --shadow-md: 0 2px 8px rgb(11 29 51 / 0.08);
+  --shadow-lg: 0 8px 28px rgb(11 29 51 / 0.12);
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.2, 0, 0.15, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --duration-instant: 90ms;
+  --duration-fast: 160ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+
+  /* ---- Grid ---- */
+  --container-content: 68rem;
+  --container-wide: 82.5rem;
+
+  /* ---- Breakpoints ---- */
+  --breakpoint-sm: 390px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Tema escuro — aplicado por seção (`.gt-dark`) e não pelo sistema.
+   O site é majoritariamente escuro por direção de arte; o visitante não
+   escolhe. Ver docs/design-system.md §"Dark theme". */
+.gt-dark {
+  --color-surface: var(--color-navy);
+  --color-surface-raised: var(--color-navy-raised);
+  --color-surface-sunken: var(--color-navy-deep);
+  --color-surface-inverse: var(--color-offwhite);
+
+  --color-text: var(--color-offwhite); /* 15,6:1 */
+  --color-text-muted: #a8b4c2; /* 9,0:1 */
+  --color-text-inverse: var(--color-graphite);
+  --color-text-accent: var(--color-gold); /* 7,5:1 */
+
+  --color-border: #1e344f; /* separador decorativo */
+  --color-border-strong: #6b84a0; /* 4,39:1 — borda de campo e controle */
+
+  --color-focus: var(--color-gold);
+  --color-success: #6dbf9a;
+  --color-error: #e88b84;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    /* Nenhuma seção pode empurrar a página para os lados. */
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Foco sempre visível, nunca removido. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Alvos de toque: piso de 44x44 em tudo que é acionável. */
+  a[data-target],
+  button,
+  [role="button"] {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-graphite);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

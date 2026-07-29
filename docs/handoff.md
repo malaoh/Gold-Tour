@@ -1,73 +1,75 @@
 # Gold Tour — handoff
 
-Última atualização: 2026-07-29, fim da Etapa 00.
+Última atualização: 2026-07-29, fim da Etapa 04.
 
 ## Estado real do projeto
 
-**Classificação:** pasta nova, recém-inicializada. Não é site em manutenção,
-não é exportação de Lovable/Framer/Webflow, não é aplicação incompleta herdada.
-
-O repositório contém exclusivamente o scaffold padrão do `create-next-app`,
-criado nesta sessão e ainda não modificado:
+Base técnica completa e verificada; **nenhuma página do site foi construída**.
+O que existe é fundação: tokens, primitivos, modelo de conteúdo, testes,
+configuração e documentação.
 
 ```
 gold-tour/
-├─ app/            layout.tsx, page.tsx, globals.css, favicon.ico  (scaffold)
-├─ public/         file.svg, globe.svg, next.svg, vercel.svg, window.svg (scaffold)
-├─ docs/           criado na Etapa 00
-├─ AGENTS.md       aviso do Next 16 sobre breaking changes
-├─ CLAUDE.md       aponta para AGENTS.md
-├─ next.config.ts  vazio (config padrão)
-├─ eslint.config.mjs · postcss.config.mjs · tsconfig.json
-└─ package.json · package-lock.json
+├─ app/               layout (fontes, metadata, viewport), error, not-found,
+│                     loading, design-system/ (interno, 404 em produção)
+├─ components/ui/     button, field, card, badge, sheet-demo
+├─ content/           schema.ts (Fact<T>), site-content.ts (dados com fonte)
+├─ lib/               utils.ts, whatsapp.ts
+├─ tests/             setup + 10 testes; e2e/ vazio (Playwright configurado)
+├─ docs/              12 documentos
+├─ public/            apenas os SVG do scaffold
+└─ .env.example · next.config.ts · vitest.config.mts · playwright.config.ts
 ```
 
-- Rotas existentes: apenas `/` (página de boas-vindas do Next).
-- Estilos: `app/globals.css` com `@import "tailwindcss"` padrão.
-- Banco de dados: nenhum. Variáveis de ambiente: nenhuma (`.env*` inexistente).
-- Testes: nenhum. CI: nenhum. `npm run lint` existe; não há `typecheck` nem `test`.
-- `node_modules/` instalado; `.next/` presente de uma geração de tipos.
-- Nenhum conteúdo, branding ou dado da Gold Tour foi escrito em código.
+Rotas existentes: `/` (ainda a página do scaffold) e `/design-system`.
 
-## Comandos disponíveis
+## Verificação (Etapa 04)
 
-| Comando | Efeito |
+| Verificação | Resultado |
 |---|---|
-| `npm run dev` | servidor de desenvolvimento |
-| `npm run build` | build de produção |
-| `npm run start` | serve o build |
-| `npm run lint` | ESLint |
+| `npm ci` reproduzível | lockfile íntegro |
+| `npm run dev` | sobe em `:3010`, sem erro de console |
+| `npm run lint` | limpo |
+| `npm run typecheck` | limpo, com strict endurecido |
+| `npm run test` | 10 testes, 2 arquivos, todos passando |
+| `npm run build` | verde, 3 rotas estáticas |
+| `npm run format:check` | tudo formatado |
 
-Ainda não existem: `typecheck`, `test`, `format`. A criar na Etapa 04.
+## Bloqueadores por etapa
 
-## Preservação do trabalho do usuário
+| Etapa | Bloqueio |
+|---|---|
+| 05 | nenhum — pode começar |
+| 06 | B-16 (importar o vídeo do Farol da Barra) |
+| **07** | **B-02 — sem o número de WhatsApp não existe caminho de conversão** |
+| 08 | B-01, B-03, B-04, B-12, B-13 — 2 de 4 veículos sem imagem publicável |
+| 09 | B-17 — nenhum detalhamento operacional de serviço |
+| 11 | B-06, B-07, B-08, B-11, B-15 — footer, legal e FAQ vazios |
+| 13 | B-09 — domínio e hospedagem |
 
-`git status` na abertura e no fechamento da Etapa 00: **working tree limpo**,
-nenhuma alteração local pendente, nada descartado. Único commit anterior:
-`7530356 Initial commit: scaffold Next.js project for Gold Tour`.
+Lista completa em `content-needs.md`.
 
-Nenhum arquivo em `Downloads/GOLD TOUR` ou `Downloads/02-Imagens` foi movido,
-renomeado, copiado ou alterado.
+## Riscos residuais
 
-## Bloqueadores que já afetam o cronograma
-
-| ID | Falta | Trava |
-|---|---|---|
-| B-01 | Procedência das duas fotos de veículos (indício de edição por IA) | Etapa 08 |
-| B-02 | Número de WhatsApp | Etapa 07 |
-| B-03/B-04 | Fotos de Doblò e micro-ônibus | Etapa 08 |
-| B-05 | Logo, favicon, cores e fontes oficiais | Etapa 03 |
-| B-06 | Dados empresariais para footer e páginas legais | Etapa 11 |
-
-Lista completa em `docs/content-needs.md`.
+1. **`postcss` vulnerável dentro do Next.** `npm audit` aponta 1 alta e 1
+   moderada em `next/node_modules/postcss`. É dependência de build, não vai
+   para o cliente, e a única correção oferecida pelo npm é rebaixar o Next para
+   a v9 — recusada. Depende de release do Next; reavaliar na Etapa 13.
+2. **Logo inutilizável em produção.** Só existe a prancha achatada, sem alfa e
+   sem vetor. O header da Etapa 05 vai precisar de uma solução interina
+   documentada até B-05 chegar.
+3. **A marca é uma proposta.** O caderno diz "PROPOSTA PARA RENAN" (C-01, C-03).
+   Se não for a identidade adotada, os tokens da Etapa 03 mudam.
+4. **Voz da marca em aberto** (C-04): copy-base sóbria foi mantida sobre a voz
+   "VIP" do caderno; falta confirmação do proprietário.
+5. **Playwright sem navegadores instalados.** `npx playwright install chromium`
+   antes do primeiro `test:e2e`.
 
 ## Próxima ação
 
-**Etapa 01 — verdade do negócio, marca e modelo de conteúdo.**
+**Etapa 05 — shell, navegação e estrutura global.** O prompt já foi recebido e
+está na fila, junto com os das Etapas 06 e 07. Nenhum deles foi executado.
 
-Aguardando o Prompt 01. Para que a Etapa 01 produza conteúdo real em vez de
-suposição, o ideal é receber junto: número de WhatsApp, ativos de marca (ou a
-confirmação de que não existem), dados empresariais e a URL de um site atual,
-se houver.
-
-Nada será implementado antes do próximo prompt.
+Para destravar o caminho crítico, o que mais rende agora é receber: o **número
+de WhatsApp** (B-02), a **logo em vetor ou PNG com transparência** (B-05) e a
+confirmação sobre as **fotos dos veículos** (B-01).

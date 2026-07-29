@@ -75,6 +75,29 @@ localizado nas duas pastas auditadas. Os arquivos com "logo" no nome em
 `02-Imagens` pertencem a outros projetos (PLK, Flor do Sertão, Kipao, Alfa,
 Metafit, Flamingo, esmaltaria). Ver bloqueador B-05 e contradição C-01.
 
+## Marca — atualização da Etapa 01
+
+| Arquivo | Formato | Situação |
+|---|---|---|
+| `GOLD TOUR/e01bf865-9ee1-4fc7-b822-65a9b000ce7f.png` | PNG 1055×1491, `rgb24`, 1,8 MB | prancha do caderno de marca (p. 03). **Sem alfa, sem vetor** — não publicável como logo |
+
+Detalhes em `brand-audit.md`. O que falta para a marca ir ao ar: vetor ou PNG
+com transparência, versão monocromática e favicon (B-05).
+
+## Pipeline de mídia planejado (Etapa 02, execução na Etapa 10)
+
+| Etapa | Ação |
+|---|---|
+| 1 | Copiar apenas os clipes aprovados para `public/media/`, com nomes web-safe (resolve o `…` do arquivo `Street_photograph…`) |
+| 2 | Reencodar em H.264, alvo ≤ 2,5 MB por clipe, mantendo 1920×1080 |
+| 3 | Extrair poster de cada clipe (JPEG/AVIF), que passa a ser o LCP do bloco |
+| 4 | Recortar `Forte_de_Santa_Maria` eliminando o equipamento — ou descartar |
+| 5 | Registrar cada arquivo como `MediaAsset` com `provenance` e `license` |
+| 6 | Nenhum vídeo entra no caminho crítico: `preload="none"` e poster sempre |
+
+Nenhum arquivo foi copiado até aqui. As pastas de origem do usuário seguem
+intocadas.
+
 ## Biblioteca de referência UI/UX
 
 `Downloads/GOLD TOUR/ui-ux-pro-max-skill-main` é uma skill de inteligência de
