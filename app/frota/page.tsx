@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   title: 'Frota',
   description:
     'Corolla Executivo, Sprinter Executiva, Micro-ônibus Executivo e Doblò Executiva para transfers, passeios e grupos em Salvador.',
+  alternates: { canonical: '/frota' },
+  openGraph: {
+    title: 'Frota | Gold Tour',
+    description:
+      'Corolla Executivo, Sprinter Executiva, Micro-ônibus Executivo e Doblò Executiva para transfers, passeios e grupos em Salvador.',
+  },
 }
 
 export default function FrotaPage() {

@@ -73,6 +73,19 @@ describe('site-content — invariantes do contrato', () => {
     expect(micro && publishable(micro.media)).toBeNull()
   })
 
+  it('nenhuma resposta de FAQ publicada é placeholder — só confirmed ou ausente', () => {
+    for (const item of siteContent.faq) {
+      expect(item.answer.status).not.toBe('placeholder')
+    }
+  })
+
+  it('política de privacidade publicada é confirmed; termos permanece pending', () => {
+    const privacy = siteContent.legal.find((d) => d.slug === 'politica-de-privacidade')
+    const terms = siteContent.legal.find((d) => d.slug === 'termos')
+    expect(privacy?.body.status).toBe('confirmed')
+    expect(terms?.body.status).toBe('pending')
+  })
+
   it('nenhum passeio publica roteiro fechado ou duração', () => {
     for (const tour of siteContent.tours) {
       expect(publishable(tour.itinerary)).toBeNull()

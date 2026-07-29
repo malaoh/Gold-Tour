@@ -15,7 +15,7 @@ Status possíveis: `pendente` · `em andamento` · `APROVADA` · `REPROVADA`
 | 08 | Frota, imagens e detalhes dos veículos | APROVADA | 2026-07-29 | Corolla/Sprinter com foto oficial e harmonizada; Doblò/Micro-ônibus em curadoria honesta; CTA pré-seleciona veículo |
 | 09 | Serviços, passeios e conteúdo de Salvador | APROVADA | 2026-07-29 | CTAs contextuais conectados ao fluxo; roteiro fechado removido dos passeios |
 | 10 | Pipeline de mídia e motion | APROVADA | 2026-07-29 | 5/7 vídeos aprovados e documentados; enquadramento do hero corrigido por breakpoint; LCP/CLS medidos |
-| 11 | Confiança, contato, legal, SEO e idiomas | pendente | — | Bloqueada: dados empresariais ausentes |
+| 11 | Confiança, contato, legal, SEO e idiomas | APROVADA | 2026-07-29 | FAQ corrigida, política de privacidade real publicada, sitemap/robots/favicon prontos |
 | 12 | Integração, acessibilidade, performance e QA | pendente | — | |
 | 13 | Produção, entrega e handoff final | pendente | — | Hospedagem/domínio não definidos |
 
@@ -123,3 +123,20 @@ nenhum vídeo carregado abaixo de 768 px. Inventário de motion documentado:
 só o vídeo do hero se move de fato na home; nenhuma seção usa scroll-reveal,
 parallax ou seção pinada. Um P2 de performance (JS ~160 KB, acima da meta)
 registrado para a Etapa 12.
+
+## Etapa 11 — confiança, contato, legal, SEO
+
+Corrigidas duas inconsistências reais: a resposta de FAQ sobre cancelamento
+estava em placeholder contradizendo a própria documentação (B-18 "nunca em
+placeholder"); e o favicon usava um recorte do monograma que cortava a letra
+"G". Quatro respostas de FAQ operacionais (voo atrasado, cadeirinha,
+cancelamento, grupos) voltaram a `pending` — só "como solicito" permanece
+confirmada, por descrever o próprio fluxo do site. Política de privacidade
+publicada como conteúdo real (`confirmed`), descrevendo exatamente o que o
+código faz — sessionStorage, sem cookies, sem analytics, handoff via
+WhatsApp — sem depender de confirmação da operação. Termos segue em 404.
+Criados `sitemap.ts` e `robots.ts` a partir das rotas reais; canonical/OG
+completados em `/`, `/frota` e `/contato`. Nenhum dado estruturado JSON-LD
+publicado (seria `LocalBusiness` sem endereço/telefone confirmados). Nenhum
+seletor de idioma, nenhum banner de consentimento — nenhum dos dois é
+necessário no estado atual.

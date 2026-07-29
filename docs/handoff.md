@@ -1,6 +1,6 @@
 # Gold Tour — handoff
 
-Última atualização: 2026-07-29, ao fim da Etapa 10.
+Última atualização: 2026-07-29, ao fim da Etapa 11.
 
 ## Estado real
 
@@ -131,6 +131,19 @@ inventário completo de motion — só o vídeo do hero se move na home.
 **Novo item na lista de riscos**: JS inicial em produção mede ~160 KB, acima
 da meta de 120 KB — ver riscos abaixo.
 
+## Etapa 11 — o que mudou
+
+Duas inconsistências reais corrigidas: a resposta de FAQ sobre cancelamento
+estava em placeholder contradizendo a própria documentação; e o favicon
+usava um recorte do monograma que cortava a letra "G" (agora corrigido —
+`app/icon.png` e `app/favicon.ico`). FAQ ficou mais rígida: só "como
+solicito" é confirmada; voo atrasado, cadeirinha, cancelamento e grupos
+voltaram a `pending`, pois o Prompt 11 proíbe resposta operacional
+presumida. `/politica-de-privacidade` agora publica conteúdo real (descreve
+o comportamento técnico do código, verificável sem depender da operação);
+`/termos` segue em 404. `sitemap.ts` e `robots.ts` criados; canonical/OG
+completados em `/`, `/frota`, `/contato`.
+
 ## Próxima ação
 
-**Etapa 11 — confiança, contato, legal, SEO e idiomas.**
+**Etapa 12 — integração, acessibilidade, performance e QA completo.**

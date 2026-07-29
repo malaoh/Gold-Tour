@@ -27,6 +27,18 @@ Nenhum desses status é exibido ao visitante. `placeholder` foi a única exceç�
 autorização explícita do proprietário, e nunca para preço, prazo, avaliação ou
 disponibilidade (induziriam decisão de compra).
 
+**A Etapa 11 restringiu o mecanismo para FAQ e política de cancelamento.** O
+Prompt 11 proíbe "resposta operacional presumida". Quatro respostas de FAQ
+que estavam em `placeholder` (voo atrasado, cadeirinha, cancelamento, escala
+de grupos) voltaram a `pending` — são exatamente o tipo de afirmação que, se
+errada, vira problema real no dia da viagem. A única resposta `confirmed` é
+"como faço para solicitar", porque descreve o fluxo que o próprio site
+implementa, não uma promessa da operação. A política de privacidade, por
+outro lado, passou a `confirmed`: ela descreve só o comportamento técnico do
+código (sessionStorage, ausência de cookies/analytics, handoff via WhatsApp),
+que é verificável no próprio repositório — não depende de a operação
+confirmar nada.
+
 **A Etapa 09 restringiu esse mecanismo para passeios.** O prompt da etapa
 proíbe publicar, mesmo como placeholder, duração, sequência fechada de
 paradas, ingresso, guia, alimentação, preço, disponibilidade, política de

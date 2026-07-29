@@ -368,16 +368,18 @@ export const siteContent: SiteContent = {
   fleet,
   tours,
 
+  /**
+   * FAQ — Etapa 11.
+   *
+   * O Prompt 11 proíbe "resposta operacional presumida". Isso é mais estrito
+   * que a autorização geral de placeholder (D-024): política de cancelamento,
+   * atraso de voo, cadeirinha e escala de grupos são exatamente o tipo de
+   * afirmação que, se errada, vira problema real para um cliente no dia da
+   * viagem. Só "como-solicito" fica `confirmed`, porque descreve o fluxo que
+   * o próprio site implementa — não é uma promessa da operação, é um fato
+   * sobre o código. Todo o resto é `pending` até a operação confirmar.
+   */
   faq: [
-    {
-      id: 'voo-atrasado',
-      question: 'E se o meu voo atrasar?',
-      answer: placeholder(
-        'Acompanhamos o status do voo informado na solicitação e ajustamos o horário do encontro. Se o atraso for grande, a equipe entra em contato pelo WhatsApp para combinar o novo horário.',
-        'B-08',
-      ),
-      topic: 'voos',
-    },
     {
       id: 'como-solicito',
       question: 'Como faço para solicitar?',
@@ -388,31 +390,27 @@ export const siteContent: SiteContent = {
       topic: 'agendamento',
     },
     {
+      id: 'voo-atrasado',
+      question: 'E se o meu voo atrasar?',
+      answer: pending('B-08', 'Resposta operacional — exige confirmação da operação, não é placeholder'),
+      topic: 'voos',
+    },
+    {
       id: 'cadeirinha',
       question: 'Vocês oferecem cadeirinha para crianças?',
-      answer: placeholder(
-        'Sim, mediante solicitação antecipada. Informe a idade e o peso da criança ao solicitar o atendimento para que a cadeirinha correta esteja no veículo.',
-        'B-08',
-      ),
+      answer: pending('B-08', 'Resposta operacional — exige confirmação da operação, não é placeholder'),
       topic: 'acessibilidade',
     },
     {
       id: 'alteracao',
       question: 'Consigo alterar ou cancelar uma solicitação?',
-      answer: placeholder(
-        'Sim. Alterações e cancelamentos são tratados pelo WhatsApp com a equipe que atendeu a sua solicitação.',
-        'B-18',
-        'Confirmar prazo e política de cancelamento antes do lançamento.',
-      ),
+      answer: pending('B-18', 'Política comercial — nunca publicada sem confirmação, nem como placeholder'),
       topic: 'alteracoes',
     },
     {
       id: 'grupos',
       question: 'Como funciona o atendimento para grupos e eventos?',
-      answer: placeholder(
-        'A equipe monta a escala de veículos e horários a partir do número de pessoas, dos voos e do ponto de encontro. Para grupos, o ideal é solicitar com antecedência.',
-        'B-08',
-      ),
+      answer: pending('B-08', 'Resposta operacional — exige confirmação da operação, não é placeholder'),
       topic: 'grupos',
     },
     {
@@ -427,9 +425,29 @@ export const siteContent: SiteContent = {
     {
       slug: 'politica-de-privacidade',
       title: 'Política de privacidade',
-      body: pending('B-11'),
+      body: confirmed(
+        [
+          'Esta política descreve exatamente o que o site da Gold Tour faz com os dados que você informa — não mais do que isso.',
+          '',
+          'O que coletamos: quando você preenche o formulário de solicitação, os dados (nome, contato, data, número de passageiros e observações) ficam apenas no seu navegador, em armazenamento temporário da própria sessão (sessionStorage), para que você não perca o preenchimento se sair da página. Nada disso é enviado para servidores da Gold Tour.',
+          '',
+          'Como a solicitação chega até nós: ao enviar o formulário, os dados preenchidos são usados para montar uma mensagem que abre diretamente uma conversa no WhatsApp, endereçada ao número oficial da Gold Tour. A partir daí, a conversa segue pelo WhatsApp, sob a política de privacidade do próprio WhatsApp.',
+          '',
+          'O que não fazemos: este site não usa cookies de rastreamento, não usa pixels de publicidade e não tem nenhuma ferramenta de analytics instalada. Não compartilhamos, vendemos ou armazenamos seus dados em banco de dados próprio.',
+          '',
+          'Terceiros: os únicos serviços externos usados para exibir o site são a hospedagem e a entrega das fontes e imagens, sem coleta adicional de dados pessoais.',
+          '',
+          'Dados institucionais da empresa (razão social, CNPJ, endereço completo, canal formal de contato para questões de privacidade) ainda não foram confirmados pela operação e serão incluídos aqui assim que estiverem disponíveis. Esta política cobre apenas o comportamento técnico do site descrito acima; recomenda-se revisão jurídica antes de qualquer divulgação ampla.',
+        ].join('\n'),
+        'Descrição direta do comportamento implementado no código (sessionStorage, ausência de cookies/analytics, handoff via WhatsApp) — Etapa 11',
+      ),
+      updatedAt: confirmed('2026-07-29', 'Etapa 11'),
+    },
+    {
+      slug: 'termos',
+      title: 'Termos de uso',
+      body: pending('B-11', 'Depende de política comercial (B-18) ainda não confirmada'),
       updatedAt: pending('B-11'),
     },
-    { slug: 'termos', title: 'Termos de uso', body: pending('B-11'), updatedAt: pending('B-11') },
   ],
 }

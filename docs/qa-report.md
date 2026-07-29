@@ -152,6 +152,33 @@ na Etapa 02 — provavelmente por causa das dependências do componente
 liquid-glass (`@radix-ui/react-slot`, `class-variance-authority`). Não é falha
 de vídeo/motion; registrado para revisão na Etapa 12.
 
+## Etapa 11 — confiança, contato, legal, SEO e idiomas
+
+| Verificação | Resultado |
+|---|---|
+| FAQ publicada não contém resposta operacional presumida | confirmado — teste automatizado; só 1 pergunta confirmada renderiza |
+| Política de privacidade publica e reflete só o código real | confirmado — texto lido na página, sem afirmação de dado não verificável |
+| Termos segue 404 (depende de política comercial não confirmada) | confirmado |
+| `/sitemap.xml` só lista rotas reais, publicadas e indexáveis | confirmado — 13 URLs, sem `/solicitar`, `/design-system` nem `/termos` |
+| `/robots.txt` aponta para o sitemap e bloqueia `/design-system` | confirmado |
+| Favicon e `app/icon.png` mostram o monograma GT completo | confirmado — corrigido um recorte antigo que cortava o "G" |
+| Canonical + Open Graph em `/`, `/frota`, `/contato` | confirmado |
+| Nenhum cookie de marketing, nenhum analytics instalado | confirmado — B-14 segue pendente por falta de autorização |
+| Caminho de conversão (`/solicitar` → WhatsApp) continua funcionando | confirmado ponta a ponta |
+| `lint` / `typecheck` / `test` (18 testes) / `build` | todos verdes |
+
+### Achado corrigido nesta etapa
+
+Duas inconsistências reais entre o que eu mesmo tinha documentado e o que
+estava publicado:
+
+1. A resposta de FAQ sobre cancelamento estava em `placeholder` referenciando
+   B-18 — mas `content-needs.md` já dizia explicitamente que B-18 "nunca
+   [entra] em placeholder". Corrigido: voltou a `pending`.
+2. O ícone/favicon do site usava um recorte antigo do monograma que cortava a
+   letra "G", deixando só um traço solto ao lado do "T". Recortado de novo a
+   partir do selo maior da prancha original, com o "GT" completo e legível.
+
 ## Pendências de QA
 
 - E2E não executado (navegadores do Playwright ausentes).

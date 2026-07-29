@@ -6,14 +6,18 @@ import { siteContent } from '@/content/site-content'
 
 const doc = siteContent.legal.find((item) => item.slug === 'politica-de-privacidade')
 
-export const metadata: Metadata = { title: doc?.title }
+export const metadata: Metadata = {
+  title: doc?.title,
+  description: 'O que o site da Gold Tour faz — e não faz — com os dados que você informa.',
+  alternates: { canonical: '/politica-de-privacidade' },
+}
 
 export default function Page() {
   const body = doc ? publishable(doc.body) : null
 
-  // O documento ainda não foi redigido (pendência B-11). Publicar um texto
-  // genérico de política seria pior que não publicar: cria obrigação legal
-  // que a operação não combinou.
+  // Esta página só publica quando body é `confirmed`: se um dia o texto
+  // voltar a pending (por exemplo, numa revisão jurídica em andamento), a
+  // rota volta a 404 em vez de mostrar texto desatualizado ou genérico.
   if (!doc || !body) notFound()
 
   return (

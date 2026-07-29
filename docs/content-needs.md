@@ -1,6 +1,6 @@
 # Gold Tour — dados e mídias faltantes
 
-Atualizado na Etapa 08. Nada desta lista pode ser inventado. Um dado
+Atualizado na Etapa 11. Nada desta lista pode ser inventado. Um dado
 `pending` some da interface; um dado `placeholder` vai ao ar mas aparece em
 `npm run placeholders` até ser trocado pelo real (ver `content-model.md`).
 
@@ -35,20 +35,20 @@ roteiros de passeio (B-19).
 | B-02 | Número de WhatsApp oficial | divulgação do site | placeholder no ar |
 | B-03 | Foto real da Doblò Executiva | Etapa 08 | sem imagem publicada |
 | B-04 | Foto real do Micro-ônibus Executivo | Etapa 08 | sem imagem publicada |
-| B-05 | Logo em vetor com transparência; versão monocromática; favicon | Etapa 13 | usando raster extraído da prancha |
+| B-05 | Logo em vetor com transparência; versão monocromática | Etapa 13 | favicon/ícone **resolvidos na Etapa 11** a partir de recorte melhor do monograma; wordmark/selo ainda raster |
 | B-06 | Razão social, CNPJ, endereço completo, telefone | Etapa 11 | endereço parcial em placeholder |
 | B-07 | Perfil de Instagram real | Etapa 11 | placeholder `@goldtour` no ar |
-| B-08 | Respostas de FAQ ainda pendentes (bagagem exata, acessibilidade) | Etapa 11 | 4 de 6 perguntas com placeholder |
+| B-08 | Respostas operacionais de FAQ (voo atrasado, cadeirinha, grupos) | Etapa 11+ | **corrigido nesta etapa**: voltaram a `pending` — eram placeholder, mas o Prompt 11 proíbe resposta operacional presumida |
 | B-09 | Domínio e hospedagem de destino | Etapa 13 | — |
 | B-10 | Idiomas além de pt-BR | Etapa 11 | decidido: só pt-BR por ora |
-| B-11 | Política de privacidade e termos | Etapa 11 | rotas em 404 de propósito |
+| B-11 | ~~Política de privacidade~~ e termos | Etapa 13 | **política publicada nesta etapa** (`confirmed`, descreve só o comportamento técnico do código); termos seguem em 404 — dependem de B-18 |
 | B-12 | Capacidade de passageiros e bagagem por categoria | Etapa 08 | placeholder no ar, **precisa confirmação real** |
 | B-13 | Comodidades e acessibilidade por categoria | Etapa 08 | comodidades em placeholder; acessibilidade `pending` (nunca afirmada sem fonte) |
 | B-14 | Autorização e ferramenta de analytics | Etapa 11 | nenhum instalado |
 | B-15 | Horário de atendimento | Etapa 11 | placeholder no ar |
 | B-16 | — | — | resolvido na Etapa 06 (vídeos importados) |
 | B-17 | Detalhamento operacional de cada serviço (o texto atual é placeholder redigido pela equipe do site, plausível mas não confirmado item a item pela operação) | Etapa 11+ | placeholder no ar |
-| B-18 | Política comercial: orçamento, cancelamento, preço | Etapa 11 | nunca em placeholder — proibido induzir decisão de compra |
+| B-18 | Política comercial: orçamento, cancelamento, preço | Etapa 13 | nunca em placeholder; FAQ de cancelamento corrigida nesta etapa (estava indevidamente em placeholder, ver decision-log D-048) |
 | B-19 | Roteiro e duração real dos passeios | Etapa 11+ | **corrigido na Etapa 09**: itinerário e duração voltaram a `pending` — não são mais placeholder, por proibição explícita do Prompt 09 |
 
 ### Contraditório / a esclarecer
@@ -67,7 +67,8 @@ roteiros de passeio (B-19).
    a Chevrolet Spin vetada.
 2. Foto publicável do **Micro-ônibus Executivo** — `microonibus de luxo.webp`
    segue vetado; `van interna.png` avaliada e recusada (D-036).
-3. Logo em **vetor** com transparência, versão monocromática, favicon.
+3. Logo em **vetor** com transparência e versão monocromática (o favicon já
+   foi resolvido nesta etapa com um recorte melhor do monograma).
 4. Fotos adicionais de Corolla e Sprinter para a galeria de cada página de
    detalhe (`gallery`, hoje `pending`).
 5. Fotografia real de recepção/atendimento, se a Etapa 09 pedir presença

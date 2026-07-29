@@ -9,6 +9,8 @@ import { buildWhatsAppUrl } from '@/lib/whatsapp'
 export const metadata: Metadata = {
   title: 'Contato',
   description: 'Fale com a equipe da Gold Tour em Salvador.',
+  alternates: { canonical: '/contato' },
+  openGraph: { title: 'Contato | Gold Tour', description: 'Fale com a equipe da Gold Tour em Salvador.' },
 }
 
 export default function ContatoPage() {
