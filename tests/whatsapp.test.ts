@@ -21,4 +21,14 @@ describe('buildWhatsAppMessage', () => {
       'Olá! Gostaria de solicitar um atendimento com a Gold Tour.',
     )
   })
+
+  it('inclui o veículo pré-selecionado a partir da frota', () => {
+    const message = buildWhatsAppMessage({
+      service: 'Grupos e eventos',
+      vehicle: 'Sprinter Executiva',
+      name: 'Ana',
+    })
+
+    expect(message).toContain('Veículo preferido: Sprinter Executiva')
+  })
 })

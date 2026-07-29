@@ -28,6 +28,16 @@ export function shouldAutoplayVideo(): boolean {
   return window.matchMedia('(min-width: 768px)').matches
 }
 
+/**
+ * `true` num dispositivo de toque. Não muda depois do primeiro toque, então
+ * um valor estático lido via `useSyncExternalStore` evita o padrão
+ * "setState dentro de useEffect" — sem assinatura real, só uma leitura preguiçosa.
+ */
+export function isTouchDevice(): boolean {
+  if (typeof window === 'undefined') return false
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+}
+
 /** Atributos obrigatórios de link externo — sempre seguros. */
 export const externalLinkProps = {
   target: '_blank',

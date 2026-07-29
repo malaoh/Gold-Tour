@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { PageIntro } from '@/components/site/page-intro'
+import { MetalLink } from '@/components/ui/liquid-glass-button'
 import { publishable } from '@/content/schema'
 import { siteContent } from '@/content/site-content'
 import { externalLinkProps } from '@/lib/utils'
@@ -86,12 +86,9 @@ export default function ContatoPage() {
                 )}
               </dl>
 
-              <Link
-                href="/solicitar"
-                className="bg-action text-on-action hover:bg-gold-soft mt-10 inline-flex min-h-13 items-center justify-center rounded-md px-8 font-sans font-medium transition-colors"
-              >
+              <MetalLink href="/solicitar" variant="gold" className="mt-10">
                 Solicitar atendimento
-              </Link>
+              </MetalLink>
             </div>
           </div>
         </div>

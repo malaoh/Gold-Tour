@@ -114,8 +114,9 @@ hospitalidade e discrição, sem os superlativos.
 
 ## Ressalvas registradas
 
-- **R-01** — O material é uma **proposta** ("PROPOSTA PARA RENAN"), não um
-  manual aprovado. É preciso confirmar que este é o branding adotado.
+- **R-01** — ~~O material é uma proposta, não um manual aprovado.~~
+  **Resolvida na Etapa 01 (D-023):** o proprietário confirmou o caderno como
+  identidade definitiva.
 - **R-02** — Só a página 03 foi entregue. As páginas 01, 02 e seguintes do
   caderno podem conter fontes oficiais, área de proteção, usos proibidos e
   versões alternativas.
@@ -128,3 +129,13 @@ hospitalidade e discrição, sem os superlativos.
 - **R-05** — A prancha é assinada como proposta para "Renan". A relação entre
   Renan e a Gold Tour (proprietário? sócio?) não está registrada e não será
   presumida.
+- **R-06** — *Etapa 08.* Os CTAs primários do site passaram a usar um
+  componente de terceiros com glassmorphism, filtro de turbulência SVG e
+  gradiente metálico (D-038), a pedido explícito do proprietário, depois de
+  avisado do conflito. Isso contraria diretamente a direção visual desta
+  auditoria e o contrato mestre, que proíbem "glassmorphism" e "botões
+  cenográficos". Registrado como decisão consciente do proprietário, não como
+  drift de implementação. Risco residual de contraste: o gradiente do
+  `MetalButton` varia de amarelo claro a marrom-oliva sob o mesmo texto quase
+  branco — a leitura piora nas áreas mais claras do degradê (ver
+  `qa-report.md`).

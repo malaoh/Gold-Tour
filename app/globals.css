@@ -47,6 +47,24 @@
   --color-success: #1e6b4e;
   --color-error: #b42318;
 
+  /* ---- Camada de compatibilidade shadcn ----
+     Só existe para os componentes colados prontos (liquid-glass-button)
+     funcionarem sem reescrever suas classes. Não usar em código novo — use os
+     tokens semânticos acima. */
+  --color-primary: var(--color-gold);
+  --color-primary-foreground: var(--color-graphite);
+  --color-secondary: var(--color-navy);
+  --color-secondary-foreground: var(--color-offwhite);
+  --color-accent: var(--color-gold-soft);
+  --color-accent-foreground: var(--color-graphite);
+  --color-background: var(--color-offwhite);
+  --color-foreground: var(--color-graphite);
+  --color-destructive: var(--color-error);
+  --color-input: var(--color-border-strong);
+  --color-ring: var(--color-focus);
+  --color-muted: var(--color-ivory-sunken);
+  --color-muted-foreground: #4d5560;
+
   /* ---- Tipografia ---- */
   --font-display: var(--font-newsreader), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;

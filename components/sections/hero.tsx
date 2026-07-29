@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { LiquidLink } from '@/components/ui/liquid-glass-button'
 import { publishable } from '@/content/schema'
 import { siteContent } from '@/content/site-content'
 
@@ -111,12 +112,9 @@ export function Hero() {
         <p className="text-text-muted mt-6 max-w-[52ch] text-lg">{hero.description}</p>
 
         <div className="mt-9 flex flex-col gap-3 md:flex-row md:items-center">
-          <Link
-            href={hero.primaryCta.href}
-            className="bg-action text-on-action hover:bg-gold-soft inline-flex min-h-13 items-center justify-center rounded-md px-8 font-sans font-medium transition-colors"
-          >
+          <LiquidLink href={hero.primaryCta.href} size="xl">
             {hero.primaryCta.label}
-          </Link>
+          </LiquidLink>
           <Link
             href={hero.secondaryCta.href}
             className="border-border-strong text-text hover:border-gold inline-flex min-h-13 items-center justify-center rounded-md border px-8 font-sans font-medium transition-colors"

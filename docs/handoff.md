@@ -1,13 +1,14 @@
 # Gold Tour — handoff
 
-Última atualização: 2026-07-29, ao fim da Etapa 05, da Etapa 06 e da parte
-funcional da Etapa 07.
+Última atualização: 2026-07-29, ao fim da Etapa 08.
 
 ## Estado real
 
-**O site existe e navega.** Home completa com as dez seções na ordem acordada,
-páginas internas com conteúdo real, marca aplicada, mídia de Salvador
-importada e o caminho de conversão funcionando de ponta a ponta até o WhatsApp.
+O site navega de ponta a ponta com conteúdo real ou provisório rastreado —
+nada inventado sem marcação. Frota com as 4 categorias corretas: Corolla e
+Sprinter com foto oficial confirmada pelo proprietário e harmonizada
+visualmente; Doblò e Micro-ônibus tratados honestamente (sem Spin, sem o
+arquivo vetado, painel "Imagem em curadoria").
 
 ### Rotas publicadas (16 no build)
 
@@ -16,13 +17,13 @@ importada e o caminho de conversão funcionando de ponta a ponta até o WhatsApp
 | `/` | home completa |
 | `/servicos` | índice dos 5 serviços |
 | `/servicos/transfer-aeroporto` · `/motorista-a-disposicao` · `/grupos-e-eventos` | páginas de serviço |
-| `/frota` | 4 categorias |
-| `/frota/[slug]` | 4 páginas geradas estaticamente |
+| `/frota` | 4 categorias, grid responsivo |
+| `/frota/[slug]` | 4 páginas com trilha, uso recomendado, ficha e CTA pré-selecionado |
 | `/passeios` | 4 capítulos editoriais |
-| `/solicitar` | formulário funcional → WhatsApp |
+| `/solicitar` | formulário funcional → WhatsApp, aceita `?servico=` e `?veiculo=` |
 | `/contato` | canais e área de atuação |
 | `/design-system` | interno, 404 em produção |
-| `/politica-de-privacidade` · `/termos` | **404 de propósito** — sem texto real (B-11) |
+| `/politica-de-privacidade` · `/termos` | 404 de propósito — sem texto real (B-11) |
 
 ### Estrutura
 
@@ -33,36 +34,48 @@ components/
                 tour-chapters, process-steps, faq, final-cta
   site/         header, footer, logo, page-intro, service-detail
   booking/      booking-form, booking-client
-  ui/           button, field, card, badge, sheet-demo
+  ui/           button, field, card, badge, sheet-demo,
+                liquid-glass-button (LiquidLink, MetalButton, MetalLink)
 content/        schema.ts (Fact<T>), site-content.ts
 lib/            utils.ts, whatsapp.ts
 public/brand/   selo, wordmark, monograma (+ variantes claras)
 public/media/   5 vídeos ≤ 2,5 MB + 5 posters
-public/frota/   corolla, sprinter
+public/frota/   corolla, sprinter (+ originals/ sem tratamento)
 scripts/        placeholders.ts
-tests/          12 unitários + 3 e2e
+tests/          15 unitários + 3 e2e
 docs/           14 documentos
 ```
 
-## Como o conteúdo funciona agora
+## Como o conteúdo funciona
 
-Quatro estados, definidos em `content/schema.ts`:
+Quatro estados em `content/schema.ts`: `confirmed` (tem fonte, publica),
+`placeholder` (provisório aprovado, publica e aparece em
+`npm run placeholders`), `pending` (não existe, some), `prohibited` (vetado,
+some e nunca cai em fallback).
 
-- `confirmed` — tem fonte, vai ao ar como verdade;
-- `placeholder` — provisório aprovado pelo proprietário, **vai ao ar** e é
-  listado por `npm run placeholders`;
-- `pending` — não existe, some da interface;
-- `prohibited` — vetado por decisão, some e nunca cai em fallback.
+## CTAs — mudança de visual nesta etapa
 
-**34 campos estão no ar como provisórios.** Rode `npm run placeholders` para a
-lista completa.
+A pedido explícito do proprietário, os CTAs primários (`Solicitar
+atendimento`, `Solicitar orçamento`, `Solicitar com este veículo`, `Enviar
+pelo WhatsApp`, `Iniciar solicitação`) passaram a usar um componente de
+terceiros colado pelo usuário (`components/ui/liquid-glass-button.tsx`):
+`LiquidLink` sobre fundo escuro (hero, header, CTA final) e
+`MetalButton`/`MetalLink` (variante gold) sobre fundo claro (frota, serviços,
+contato, formulário). Isso substitui o `Button` discreto do design system
+nesses pontos — `Button`, `Field`, `Card` e `Badge` continuam existindo e em
+uso nas ações secundárias e na rota `/design-system`.
+
+**Isso contraria o contrato mestre**, que proíbe "glassmorphism" e "botões
+cenográficos". Foi feito mesmo assim porque o proprietário confirmou a
+escolha depois de avisado do conflito. Ver `decision-log.md` D-038 a D-040 e
+`brand-audit.md` R-06.
 
 ## O que trocar antes de divulgar o site
 
 | Prioridade | O quê | Onde |
 |---|---|---|
-| **1** | **Número de WhatsApp.** O site usa `+55 71 90000-0000`, fictício. Todo CTA aponta para ele. | `.env.local` → `NEXT_PUBLIC_WHATSAPP_E164` |
-| **2** | Capacidades e bagagem dos 4 veículos (3, 15, 26 e 6 passageiros são chutes) | `content/site-content.ts` |
+| **1** | **Número de WhatsApp.** Hoje é `+55 71 90000-0000`, fictício. | `.env.local` → `NEXT_PUBLIC_WHATSAPP_E164` |
+| **2** | Capacidades e bagagem dos 4 veículos (3/15/26/6 passageiros são placeholder) | `content/site-content.ts` |
 | **3** | E-mail, endereço, horário e Instagram | `content/site-content.ts` |
 | **4** | Textos dos serviços e roteiros dos passeios | `content/site-content.ts` |
 | **5** | Respostas de FAQ e política de cancelamento | `content/site-content.ts` |
@@ -73,14 +86,14 @@ lista completa.
 
 ## Riscos residuais
 
-1. **O número de WhatsApp é fictício e está publicado.** Enquanto não trocar,
-   o site não pode ser divulgado — um cliente que clicar não chega a ninguém.
-2. **Capacidades de passageiros são provisórias.** São o tipo de dado que
-   induz decisão de compra; confira antes de qualquer divulgação.
-3. **Procedência das fotos de veículos** (B-01): `sedan executivo.png` e
-   `van principal.png` trazem o glifo das ferramentas de IA do Google. Estão no
-   ar por determinação do proprietário; se forem geradas por IA e não fotos da
-   frota real, precisam ser substituídas.
+1. **WhatsApp fictício e publicado** — bloqueia qualquer divulgação.
+2. **Capacidades de passageiros são provisórias** — induzem decisão de compra;
+   confirmar antes de divulgar.
+3. **Contraste dos novos CTAs.** O texto do `MetalButton` (gold) sobre a parte
+   clara do próprio gradiente mede **1,16:1** — praticamente ilegível; a base
+   do gradiente mede 3,45:1, ainda abaixo do mínimo de 4,5:1 para texto normal.
+   É uma regressão de acessibilidade real, aceita conscientemente pelo
+   proprietário nesta etapa. Recomendo corrigir na Etapa 12.
 4. **`postcss` vulnerável dentro do Next** — dependência de build, não vai ao
    cliente; a correção depende de release do Next.
 5. **E2E não executado** — falta `npx playwright install chromium`.
@@ -88,10 +101,4 @@ lista completa.
 
 ## Próxima ação
 
-**Etapa 07 completa** — o passo a passo de 14 etapas (origem, destino, horário,
-voo, bagagens, acessibilidade, categoria de veículo, revisão) em bottom sheet
-no celular e painel no desktop. A base já existe: `lib/whatsapp.ts`, o schema
-zod e o rascunho em `sessionStorage`.
-
-Depois: Etapa 08 (frota e imagens), 09 (serviços e Salvador), 10 (mídia e
-motion), 11 (legal, SEO, idiomas), 12 (QA completo), 13 (produção).
+**Etapa 09 — serviços, passeios e conteúdo de Salvador.**

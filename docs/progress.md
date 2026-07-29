@@ -12,7 +12,7 @@ Status possíveis: `pendente` · `em andamento` · `APROVADA` · `REPROVADA`
 | 05 | Shell, navegação e estrutura global | APROVADA | 2026-07-29 | Header, menu móvel acessível, footer, 16 rotas |
 | 06 | Home e narrativa principal | APROVADA | 2026-07-29 | 10 seções, hero em vídeo, 5 breakpoints verificados |
 | 07 | Fluxo de solicitação e WhatsApp | PARCIAL | 2026-07-29 | Formulário de tela única já entrega ao WhatsApp; passo a passo de 14 etapas pendente |
-| 08 | Frota, imagens e detalhes dos veículos | pendente | — | Bloqueada: 2 de 4 categorias sem imagem publicável |
+| 08 | Frota, imagens e detalhes dos veículos | APROVADA | 2026-07-29 | Corolla/Sprinter com foto oficial e harmonizada; Doblò/Micro-ônibus em curadoria honesta; CTA pré-seleciona veículo |
 | 09 | Serviços, passeios e conteúdo de Salvador | pendente | — | Páginas existem com texto provisório; falta o conteúdo real (B-17, B-19) |
 | 10 | Pipeline de mídia e motion | pendente | — | 5 vídeos já importados com poster; falta otimização final |
 | 11 | Confiança, contato, legal, SEO e idiomas | pendente | — | Bloqueada: dados empresariais ausentes |
@@ -84,3 +84,17 @@ pré-selecionado pela home, validação zod junto ao campo, rascunho em
 `sessionStorage` e aviso de privacidade antes do envio. Caminho completo
 verificado no navegador e coberto por teste e2e. Falta o passo a passo de 14
 etapas em bottom sheet/painel.
+
+## Etapa 08 — frota
+
+Corolla e Sprinter confirmados como fotos oficiais pelo proprietário (encerra
+B-01) e harmonizados com correção de cor para lerem como a mesma sessão
+fotográfica. Doblò e Micro-ônibus seguem sem Spin e sem o arquivo vetado —
+tratamento editorial honesto ("Imagem em curadoria") na grade e no detalhe.
+Páginas de detalhe com trilha de navegação, seção "Uso recomendado" e ficha
+técnica. CTA "Solicitar com este veículo" pré-seleciona a categoria no fluxo
+de solicitação — verificado ponta a ponta até a mensagem do WhatsApp. Nesta
+etapa também foi integrado, a pedido do proprietário, um componente de
+terceiros ("liquid glass"/"metal" button) nos CTAs principais, com registro
+explícito do conflito com o contrato visual e do risco de contraste
+associado (ver `qa-report.md` e `decision-log.md` D-038 a D-040).

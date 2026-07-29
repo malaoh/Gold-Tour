@@ -3,8 +3,8 @@
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { z } from 'zod'
-import { Button } from '@/components/ui/button'
 import { Field } from '@/components/ui/field'
+import { MetalButton } from '@/components/ui/liquid-glass-button'
 import { siteContent } from '@/content/site-content'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 
@@ -12,6 +12,7 @@ const DRAFT_KEY = 'gt:booking-draft'
 
 const schema = z.object({
   service: z.string().min(1, 'Escolha o serviço.'),
+  vehicle: z.string().optional(),
   name: z.string().trim().min(2, 'Informe o seu nome.'),
   contact: z.string().trim().min(8, 'Informe um telefone ou e-mail para contato.'),
   date: z.string().optional(),
@@ -22,13 +23,21 @@ const schema = z.object({
 type Draft = z.infer<typeof schema>
 type Errors = Partial<Record<keyof Draft, string>>
 
-const EMPTY: Draft = { service: '', name: '', contact: '', date: '', people: '', notes: '' }
+const EMPTY: Draft = {
+  service: '',
+  vehicle: '',
+  name: '',
+  contact: '',
+  date: '',
+  people: '',
+  notes: '',
+}
 
 /**
- * Versão de trabalho do fluxo de solicitação: uma tela só, com o serviço já
- * pré-selecionado pela home. O passo a passo completo é a Etapa 07 — mas
- * nenhum CTA do site pode levar a lugar nenhum enquanto isso, então esta tela
- * já monta e entrega a mensagem do WhatsApp de verdade.
+ * Versão de trabalho do fluxo de solicitação: uma tela só, com o serviço (e,
+ * vindo da frota, o veículo) já pré-selecionados. O passo a passo completo de
+ * 14 etapas é trabalho futuro — mas nenhum CTA do site pode levar a lugar
+ * nenhum enquanto isso, então esta tela já monta e entrega a mensagem real.
  *
  * O rascunho fica em `sessionStorage`: se a pessoa sair para ver a frota e
  * voltar, o que foi preenchido continua lá. Expira com a aba, não vai para
@@ -37,13 +46,19 @@ const EMPTY: Draft = { service: '', name: '', contact: '', date: '', people: '',
 export function BookingForm() {
   const params = useSearchParams()
   const serviceFromUrl = params.get('servico') ?? ''
+  const vehicleSlugFromUrl = params.get('veiculo') ?? ''
+  const vehicleFromUrl = siteContent.fleet.find((v) => v.slug === vehicleSlugFromUrl)?.name ?? ''
 
   // Este componente só roda no cliente (ver booking-client.tsx), então dá para
   // ler o rascunho já na primeira renderização — sem efeito e sem piscar.
   const [draft, setDraft] = useState<Draft>(() => {
     const stored = sessionStorage.getItem(DRAFT_KEY)
     const restored: Draft = stored ? { ...EMPTY, ...JSON.parse(stored) } : EMPTY
-    return serviceFromUrl ? { ...restored, service: serviceFromUrl } : restored
+    return {
+      ...restored,
+      service: serviceFromUrl || restored.service,
+      vehicle: vehicleFromUrl || restored.vehicle,
+    }
   })
   const [errors, setErrors] = useState<Errors>({})
   const [submitting, setSubmitting] = useState(false)
@@ -56,6 +71,8 @@ export function BookingForm() {
     })
     setErrors((current) => ({ ...current, [key]: undefined }))
   }
+
+  const clearVehicle = () => update('vehicle', '')
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault()
@@ -78,6 +95,7 @@ export function BookingForm() {
 
     const url = buildWhatsAppUrl({
       service: serviceName,
+      vehicle: result.data.vehicle || undefined,
       name: result.data.name,
       date: result.data.date,
       people: result.data.people,
@@ -96,6 +114,22 @@ export function BookingForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex max-w-2xl flex-col gap-6">
+      {draft.vehicle && (
+        <div className="border-border-strong bg-surface-sunken flex items-center justify-between gap-4 rounded-md border px-4 py-3">
+          <p className="text-base">
+            <span className="text-text-muted">Veículo selecionado: </span>
+            <span className="font-medium">{draft.vehicle}</span>
+          </p>
+          <button
+            type="button"
+            onClick={clearVehicle}
+            className="text-text-accent inline-flex min-h-11 items-center font-sans text-sm underline-offset-4 hover:underline"
+          >
+            Remover
+          </button>
+        </div>
+      )}
+
       <div className="flex flex-col gap-1.5">
         <label htmlFor="f-service" className="text-text font-sans text-sm font-medium">
           Serviço
@@ -185,9 +219,15 @@ export function BookingForm() {
       </p>
 
       {whatsappAvailable ? (
-        <Button type="submit" size="lg" loading={submitting} className="self-start">
-          Enviar pelo WhatsApp
-        </Button>
+        <MetalButton
+          type="submit"
+          variant="gold"
+          disabled={submitting}
+          aria-busy={submitting || undefined}
+          className="self-start disabled:pointer-events-none disabled:opacity-60"
+        >
+          {submitting ? 'Enviando…' : 'Enviar pelo WhatsApp'}
+        </MetalButton>
       ) : (
         <p className="text-error text-base">
           O canal de WhatsApp ainda não está configurado neste site.

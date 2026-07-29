@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { Seal } from '@/components/site/logo'
+import { LiquidLink } from '@/components/ui/liquid-glass-button'
 import { externalLinkProps } from '@/lib/utils'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 
@@ -18,13 +18,10 @@ export function FinalCta() {
           detalhes.
         </p>
 
-        <div className="mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-          <Link
-            href="/solicitar"
-            className="bg-action text-on-action hover:bg-gold-soft inline-flex min-h-13 items-center justify-center rounded-md px-8 font-sans font-medium transition-colors"
-          >
+        <div className="mt-10 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
+          <LiquidLink href="/solicitar" size="xl">
             Iniciar solicitação
-          </Link>
+          </LiquidLink>
           {whatsappUrl && (
             <a
               href={whatsappUrl}

@@ -98,6 +98,24 @@ com transparência, versão monocromática e favicon (B-05).
 Nenhum arquivo foi copiado até aqui. As pastas de origem do usuário seguem
 intocadas.
 
+## Frota — Etapa 08
+
+| Categoria | Arquivo publicado | Tratamento | Origem/licença |
+|---|---|---|---|
+| Corolla Executivo | `public/frota/corolla-executivo.jpg` | recorte 1400×1026 + correção de cor (contraste 1.05, saturação 0.92, vinheta) | `sedan executivo.png`, confirmado pelo proprietário como foto oficial (D-033) |
+| Sprinter Executiva | `public/frota/sprinter-executiva.jpg` | recorte 1400×1094 + correção de cor (contraste 1.12, saturação 0.8, balanço de cor frio, vinheta) | `van principal.png`, confirmado pelo proprietário (D-033) |
+| Micro-ônibus Executivo | — | painel "Imagem em curadoria" | sem foto confiável; `microonibus de luxo.webp` segue vetado (D-005) |
+| Doblò Executiva | — | painel "Imagem em curadoria" | sem foto confiável; Chevrolet Spin segue vetada (D-006) |
+
+Originais sem tratamento preservados em `public/frota/originals/` para
+rastreio. `van interna.png` foi avaliada como candidata a galeria da Sprinter
+e **recusada**: mostra bancos em fileiras de três (configuração de
+micro-ônibus, não de van) e traz o mesmo glifo de ferramenta de IA das demais
+imagens candidatas (D-036).
+
+Nenhuma galeria adicional foi publicada — `gallery` permanece `pending` para
+as quatro categorias.
+
 ## Biblioteca de referência UI/UX
 
 `Downloads/GOLD TOUR/ui-ux-pro-max-skill-main` é uma skill de inteligência de

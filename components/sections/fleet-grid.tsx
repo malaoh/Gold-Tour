@@ -29,10 +29,10 @@ export function FleetCard({ vehicle }: { vehicle: FleetCategory }) {
             className="object-cover"
           />
         ) : (
-          <div className="flex size-full flex-col items-center justify-center gap-3">
-            <Monogram size={44} />
+          <div className="flex size-full flex-col items-center justify-center gap-2 px-6 text-center">
+            <Monogram size={40} />
             <span className="font-sans text-xs tracking-widest text-[#6b84a0] uppercase">
-              Foto em produção
+              Imagem em curadoria
             </span>
           </div>
         )}

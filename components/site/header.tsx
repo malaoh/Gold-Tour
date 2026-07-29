@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { LiquidLink } from '@/components/ui/liquid-glass-button'
 import { siteContent } from '@/content/site-content'
 import { cn } from '@/lib/utils'
 import { Wordmark } from './logo'
@@ -116,12 +117,13 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
+          <LiquidLink
             href="/solicitar"
-            className="bg-action text-on-action hover:bg-gold-soft hidden min-h-11 items-center rounded-md px-5 font-sans text-sm font-medium whitespace-nowrap transition-colors md:inline-flex"
+            size="default"
+            className="hidden whitespace-nowrap md:inline-flex"
           >
             Solicitar orçamento
-          </Link>
+          </LiquidLink>
 
           <button
             ref={triggerRef}
@@ -185,12 +187,9 @@ export function Header() {
                 ))}
               </ul>
             </nav>
-            <Link
-              href="/solicitar"
-              className="bg-action text-on-action mt-6 flex min-h-12 items-center justify-center rounded-md px-5 font-sans font-medium"
-            >
+            <LiquidLink href="/solicitar" size="xl" className="mt-6 w-full">
               Solicitar orçamento
-            </Link>
+            </LiquidLink>
           </div>
         </>
       )}

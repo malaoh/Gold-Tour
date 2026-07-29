@@ -81,6 +81,35 @@ coberto por `tests/e2e/solicitar.spec.ts`.
 **O número usado é o placeholder `+55 71 90000-0000`.** Nenhuma divulgação do
 site pode acontecer antes de trocá-lo (B-02).
 
+## Etapa 08 — frota
+
+| Verificação | Resultado |
+|---|---|
+| Nenhuma Chevrolet Spin publicada | confirmado — grep automatizado em teste (`content-facts.test.ts`) |
+| Nenhuma referência ao arquivo vetado do micro-ônibus | confirmado — mesmo teste |
+| `Doblò` e `Micro-ônibus` sem mídia publicada | confirmado |
+| Grid 4/2×2/1 col nos breakpoints | verificado em 1440 e 375 (screenshots antes/depois) |
+| CTA "Solicitar com este veículo" pré-seleciona o veículo | verificado ponta a ponta: `/frota/sprinter-executiva` → `/solicitar?veiculo=sprinter-executiva` → mensagem final contém "Veículo preferido: Sprinter Executiva" |
+| `lint` / `typecheck` / `test` (15 testes) / `build` | todos verdes |
+| Console em `/frota` e `/frota/sprinter-executiva` | sem erro |
+
+### Risco de acessibilidade introduzido nesta etapa — CTAs "liquid glass"/"metal"
+
+A pedido do proprietário (D-038), os CTAs primários passaram a usar um
+componente de terceiros. Medi o contraste do texto do `MetalButton` (variante
+`gold`, usada em CTAs sobre fundo claro) contra o gradiente de fundo:
+
+| Ponto do gradiente | Contraste texto/fundo | Veredito |
+|---|---:|---|
+| Topo (`#FFEBA1`) | 1.16:1 | **reprova gravemente** — texto quase ilegível |
+| Base (`#9B873F`) | 3.45:1 | reprova AA (4.5:1); passa só o piso de texto grande |
+
+Isso é uma regressão real de acessibilidade nos CTAs de conversão
+(`Solicitar com este veículo`, `Solicitar atendimento`, envio do formulário)
+em página clara. Foi implementado assim mesmo por decisão explícita e
+informada do proprietário, mas fica registrado como item a corrigir na Etapa
+12 — por exemplo, escurecendo o texto ou estreitando a faixa do gradiente.
+
 ## Pendências de QA
 
 - E2E não executado (navegadores do Playwright ausentes).
@@ -90,3 +119,7 @@ site pode acontecer antes de trocá-lo (B-02).
   os textos não existem (B-11) e publicar política genérica criaria obrigação
   legal que a operação não combinou. Os links seguem no rodapé e passam a
   funcionar quando o conteúdo chegar.
+- **P2 (Etapa 12):** contraste do texto sobre o `MetalButton` gold em fundo
+  claro reprova AA em boa parte do gradiente (ver acima).
+- Capacidade de passageiros da frota (3/15/26/6) é placeholder e precisa de
+  confirmação real antes de qualquer divulgação (B-12).

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PageIntro } from '@/components/site/page-intro'
+import { MetalLink } from '@/components/ui/liquid-glass-button'
 import { publishable } from '@/content/schema'
 import { siteContent } from '@/content/site-content'
 
@@ -36,12 +37,9 @@ export function ServiceDetail({ slug }: { slug: string }) {
           )}
 
           <div className="mt-14 flex flex-wrap gap-3">
-            <Link
-              href={`/solicitar?servico=${service.slug}`}
-              className="bg-action text-on-action hover:bg-gold-soft inline-flex min-h-13 items-center justify-center rounded-md px-8 font-sans font-medium transition-colors"
-            >
+            <MetalLink href={`/solicitar?servico=${service.slug}`} variant="gold">
               Solicitar atendimento
-            </Link>
+            </MetalLink>
             <Link
               href="/servicos"
               className="border-border-strong text-text inline-flex min-h-13 items-center justify-center rounded-md border px-8 font-sans font-medium"

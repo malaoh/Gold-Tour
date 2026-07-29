@@ -55,6 +55,24 @@ describe('site-content — invariantes do contrato', () => {
     }
   })
 
+  it('nenhuma foto de veículo aponta para o arquivo vetado do micro-ônibus', () => {
+    for (const vehicle of siteContent.fleet) {
+      const asset = publishable(vehicle.media)
+      const value = asset ? publishable(asset.src) : null
+      if (value) {
+        expect(value).not.toMatch(/microonibus/i)
+        expect(value).not.toMatch(/spin/i)
+      }
+    }
+  })
+
+  it('Doblò e micro-ônibus não têm mídia publicada (sem foto confiável ainda)', () => {
+    const doblo = siteContent.fleet.find((v) => v.slug === 'doblo-executiva')
+    const micro = siteContent.fleet.find((v) => v.slug === 'micro-onibus-executivo')
+    expect(doblo && publishable(doblo.media)).toBeNull()
+    expect(micro && publishable(micro.media)).toBeNull()
+  })
+
   it('acessibilidade nunca é afirmada sem confirmação da operação', () => {
     for (const vehicle of siteContent.fleet) {
       expect(publishable(vehicle.accessibility)).toBeNull()

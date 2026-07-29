@@ -35,6 +35,7 @@ export const isWhatsAppConfigured = (): boolean => getWhatsAppNumber() !== null
 
 export type BookingDraft = {
   service?: string
+  vehicle?: string
   name?: string
   date?: string
   people?: string
@@ -46,6 +47,7 @@ export function buildWhatsAppMessage(draft: BookingDraft): string {
   const lines = ['Olá! Gostaria de solicitar um atendimento com a Gold Tour.']
 
   if (draft.service) lines.push(`Serviço: ${draft.service}`)
+  if (draft.vehicle) lines.push(`Veículo preferido: ${draft.vehicle}`)
   if (draft.name) lines.push(`Nome: ${draft.name}`)
   if (draft.date) lines.push(`Data: ${draft.date}`)
   if (draft.people) lines.push(`Passageiros: ${draft.people}`)
