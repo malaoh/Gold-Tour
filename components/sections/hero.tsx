@@ -69,10 +69,16 @@ export function Hero() {
 
   return (
     <section className="gt-dark bg-navy-deep relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden">
+      {/*
+       * O farol fica no terço direito do quadro original (1920×1080). Um
+       * recorte alto e estreito (mobile) corta as laterais e, com
+       * object-position central, apaga o farol e sobra só céu — por isso o
+       * ponto focal desliza para a direita conforme a tela estreita.
+       */}
       {poster && (
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-20 bg-cover bg-center"
+          className="absolute inset-0 -z-20 bg-cover bg-[82%_55%] sm:bg-[78%_55%] md:bg-[70%_50%] lg:bg-[60%_50%] xl:bg-center"
           style={{ backgroundImage: `url(${poster})` }}
         />
       )}
@@ -88,7 +94,7 @@ export function Hero() {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
           aria-hidden="true"
-          className="absolute inset-0 -z-10 size-full object-cover"
+          className="absolute inset-0 -z-10 size-full object-cover object-[70%_50%] lg:object-[60%_50%] xl:object-center"
         >
           <source src={src} type="video/mp4" />
         </video>

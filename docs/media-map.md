@@ -129,6 +129,14 @@ as quatro categorias.
 nessa seção em nenhum breakpoint, então a regra "sem repetir o hero em
 autoplay" vale mesmo quando o arquivo de origem é o mesmo do hero.
 
+## Aprovação final de vídeo — Etapa 10
+
+Ver `performance-report.md` para a tabela completa de decisão por arquivo,
+comportamento do vídeo do hero e a correção de `object-position` por
+breakpoint (o farol sumia do enquadramento em telas estreitas com posição
+central). Resumo: 5 de 7 vídeos aprovados e importados; `Forte_de_Santa_Maria`
+e `Vehicles_stationary` permanecem fora do projeto (D-008, D-045).
+
 ## Biblioteca de referência UI/UX
 
 `Downloads/GOLD TOUR/ui-ux-pro-max-skill-main` é uma skill de inteligência de

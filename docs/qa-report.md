@@ -130,6 +130,28 @@ paradas sem confirmação, mesmo como provisório. Corrigido: `itinerary` e
 texto de cada capítulo agora fala em região e flexibilidade, não em paradas
 prometidas.
 
+## Etapa 10 — mídia e motion
+
+| Verificação | Resultado |
+|---|---|
+| Vídeo do hero ausente no DOM em mobile (<768px) | confirmado via `document.querySelector('video')` em build de produção |
+| `matchMedia` de autoplay respeita `prefers-reduced-motion` | confirmado por leitura de código (`useSyncExternalStore` na mesma media query) |
+| Farol visível no enquadramento em 375/768/1440 | confirmado por screenshot — corrigido nesta etapa (D-046) |
+| LCP = poster, não vídeo | confirmado via `PerformanceObserver('largest-contentful-paint')`, elemento `DIV` |
+| CLS | 0 |
+| Nenhum vídeo de concorrente/conceitual no bundle | confirmado — `public/media/` só tem os 5 arquivos aprovados |
+| `lint` / `typecheck` / `test` (16 testes) / `build` | todos verdes |
+
+Ver `performance-report.md` para a tabela completa de vídeo aprovado/recusado
+e o inventário de motion.
+
+### Novo P2
+
+JS inicial da home em produção mede ~160 KB, acima da meta de 120 KB definida
+na Etapa 02 — provavelmente por causa das dependências do componente
+liquid-glass (`@radix-ui/react-slot`, `class-variance-authority`). Não é falha
+de vídeo/motion; registrado para revisão na Etapa 12.
+
 ## Pendências de QA
 
 - E2E não executado (navegadores do Playwright ausentes).

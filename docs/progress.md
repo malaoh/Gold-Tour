@@ -14,7 +14,7 @@ Status possíveis: `pendente` · `em andamento` · `APROVADA` · `REPROVADA`
 | 07 | Fluxo de solicitação e WhatsApp | PARCIAL | 2026-07-29 | Formulário de tela única já entrega ao WhatsApp; passo a passo de 14 etapas pendente |
 | 08 | Frota, imagens e detalhes dos veículos | APROVADA | 2026-07-29 | Corolla/Sprinter com foto oficial e harmonizada; Doblò/Micro-ônibus em curadoria honesta; CTA pré-seleciona veículo |
 | 09 | Serviços, passeios e conteúdo de Salvador | APROVADA | 2026-07-29 | CTAs contextuais conectados ao fluxo; roteiro fechado removido dos passeios |
-| 10 | Pipeline de mídia e motion | pendente | — | 5 vídeos já importados com poster; falta otimização final |
+| 10 | Pipeline de mídia e motion | APROVADA | 2026-07-29 | 5/7 vídeos aprovados e documentados; enquadramento do hero corrigido por breakpoint; LCP/CLS medidos |
 | 11 | Confiança, contato, legal, SEO e idiomas | pendente | — | Bloqueada: dados empresariais ausentes |
 | 12 | Integração, acessibilidade, performance e QA | pendente | — | |
 | 13 | Produção, entrega e handoff final | pendente | — | Hospedagem/domínio não definidos |
@@ -110,3 +110,16 @@ seção "Como solicitar" nas páginas de serviço, com canonical e Open Graph
 próprios em `/servicos`, `/passeios` e nas 3 páginas de serviço com rota
 dedicada. CTA de cada capítulo de passeio agora é contextual — nunca aponta
 para a própria página. Coberto por novo teste automatizado.
+
+## Etapa 10 — mídia e motion
+
+Tabela de aprovação/recusa formalizada para os 7 vídeos do pacote (5
+aprovados, 2 recusados — `docs/performance-report.md`). Corrigido um problema
+real de enquadramento: em mobile, `object-position: center` cortava o farol
+inteiro do vídeo/poster do hero, sobrando só céu; ajustado para variar por
+breakpoint. Medido contra build de produção (não dev): LCP 152 ms com o
+poster como elemento — nunca o vídeo —, CLS 0, payload mobile de 314 KB sem
+nenhum vídeo carregado abaixo de 768 px. Inventário de motion documentado:
+só o vídeo do hero se move de fato na home; nenhuma seção usa scroll-reveal,
+parallax ou seção pinada. Um P2 de performance (JS ~160 KB, acima da meta)
+registrado para a Etapa 12.

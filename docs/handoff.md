@@ -1,6 +1,6 @@
 # Gold Tour — handoff
 
-Última atualização: 2026-07-29, ao fim da Etapa 09.
+Última atualização: 2026-07-29, ao fim da Etapa 10.
 
 ## Estado real
 
@@ -98,6 +98,9 @@ escolha depois de avisado do conflito. Ver `decision-log.md` D-038 a D-040 e
    cliente; a correção depende de release do Next.
 5. **E2E não executado** — falta `npx playwright install chromium`.
 6. **Logo raster.** Funciona, mas não escala nem gera favicon/OG decentes.
+7. **JS inicial ~160 KB em produção**, acima da meta de 120 KB da Etapa 02.
+   Provável causa: `@radix-ui/react-slot` + `class-variance-authority`
+   trazidos pelo componente liquid-glass. Revisar na Etapa 12.
 
 ## Etapa 09 — o que mudou
 
@@ -115,6 +118,19 @@ capítulo de passeio é contextual: "Conhecer os passeios" na home,
 "Solicitar este roteiro" (→ `/solicitar?servico=passeio-privativo`) dentro de
 `/passeios` — nunca um link circular.
 
+## Etapa 10 — o que mudou
+
+Vídeo: tabela formal de aprovação (5 de 7 arquivos; `Forte_de_Santa_Maria` e
+`Vehicles_stationary` continuam fora). Corrigido enquadramento real: o farol
+sumia do hero em mobile porque `object-position: center` cortava o terço
+direito do quadro, onde ele está — agora varia por breakpoint (82% → center).
+Medido contra build de produção: LCP 152 ms (poster, nunca o vídeo), CLS 0,
+314 KB de payload mobile sem nenhum vídeo carregado. Documentado o
+inventário completo de motion — só o vídeo do hero se move na home.
+
+**Novo item na lista de riscos**: JS inicial em produção mede ~160 KB, acima
+da meta de 120 KB — ver riscos abaixo.
+
 ## Próxima ação
 
-**Etapa 10 — pipeline de mídia e motion.**
+**Etapa 11 — confiança, contato, legal, SEO e idiomas.**
