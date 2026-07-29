@@ -11,19 +11,29 @@ veracidade é um `Fact<T>`, e o único jeito de ler o valor é passar por
 `publishable()`, que devolve `null` para qualquer coisa não confirmada.
 
 ```ts
-type Fact<T> = ConfirmedFact<T> | PendingFact | ProhibitedFact
-publishable(fact)  // T quando confirmed, null nos demais casos
+type Fact<T> = ConfirmedFact<T> | PlaceholderFact<T> | PendingFact | ProhibitedFact
+publishable(fact)  // T quando confirmed ou placeholder, null nos demais casos
 ```
 
 | Status | Significado | Comportamento na interface |
 |---|---|---|
 | `confirmed` | dado com fonte rastreável (`source`) | renderiza |
+| `placeholder` | valor provisório **aprovado pelo proprietário** (D-024), com `replaces` apontando o id em `content-needs.md` | renderiza e aparece em `npm run placeholders` até ser trocado |
 | `pending` | não informado ainda; aponta o id em `content-needs.md` | omite a afirmação inteira |
 | `prohibited` | vetado por decisão registrada (`decision`) | omite e nunca cai em fallback |
 
-Nenhum desses status é exibido ao visitante. Não existe estado "placeholder":
-quando um dado falta, o bloco correspondente desaparece em vez de mostrar
-texto genérico.
+Nenhum desses status é exibido ao visitante. `placeholder` foi a única exceção
+à regra original de "nada inventado vai ao ar" — e mesmo assim só existe por
+autorização explícita do proprietário, e nunca para preço, prazo, avaliação ou
+disponibilidade (induziriam decisão de compra).
+
+**A Etapa 09 restringiu esse mecanismo para passeios.** O prompt da etapa
+proíbe publicar, mesmo como placeholder, duração, sequência fechada de
+paradas, ingresso, guia, alimentação, preço, disponibilidade, política de
+crianças, acessibilidade, idioma ou área de embarque sem confirmação. Por
+isso `itinerary` e `duration` em `Tour` usam `pending`, não `placeholder`,
+mesmo o site já aceitando placeholder para outros campos — a página descreve
+a região, não promete um roteiro.
 
 A diferença entre `pending` e `prohibited` importa: `pending` some hoje e volta
 quando o dado chegar; `prohibited` registra que já houve uma decisão de não

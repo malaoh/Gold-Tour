@@ -13,7 +13,7 @@ Status possíveis: `pendente` · `em andamento` · `APROVADA` · `REPROVADA`
 | 06 | Home e narrativa principal | APROVADA | 2026-07-29 | 10 seções, hero em vídeo, 5 breakpoints verificados |
 | 07 | Fluxo de solicitação e WhatsApp | PARCIAL | 2026-07-29 | Formulário de tela única já entrega ao WhatsApp; passo a passo de 14 etapas pendente |
 | 08 | Frota, imagens e detalhes dos veículos | APROVADA | 2026-07-29 | Corolla/Sprinter com foto oficial e harmonizada; Doblò/Micro-ônibus em curadoria honesta; CTA pré-seleciona veículo |
-| 09 | Serviços, passeios e conteúdo de Salvador | pendente | — | Páginas existem com texto provisório; falta o conteúdo real (B-17, B-19) |
+| 09 | Serviços, passeios e conteúdo de Salvador | APROVADA | 2026-07-29 | CTAs contextuais conectados ao fluxo; roteiro fechado removido dos passeios |
 | 10 | Pipeline de mídia e motion | pendente | — | 5 vídeos já importados com poster; falta otimização final |
 | 11 | Confiança, contato, legal, SEO e idiomas | pendente | — | Bloqueada: dados empresariais ausentes |
 | 12 | Integração, acessibilidade, performance e QA | pendente | — | |
@@ -98,3 +98,15 @@ etapa também foi integrado, a pedido do proprietário, um componente de
 terceiros ("liquid glass"/"metal" button) nos CTAs principais, com registro
 explícito do conflito com o contrato visual e do risco de contraste
 associado (ver `qa-report.md` e `decision-log.md` D-038 a D-040).
+
+## Etapa 09 — serviços e passeios
+
+Corrigido um problema real encontrado ao aplicar as regras da própria etapa:
+os 4 passeios publicavam roteiro fechado como placeholder, o que o Prompt 09
+proíbe explicitamente mesmo para dado provisório. `itinerary` e `duration`
+voltaram a `pending` (somem da interface); os nomes dos passeios foram
+alinhados às categorias editoriais seguras do prompt. Adicionado breadcrumb e
+seção "Como solicitar" nas páginas de serviço, com canonical e Open Graph
+próprios em `/servicos`, `/passeios` e nas 3 páginas de serviço com rota
+dedicada. CTA de cada capítulo de passeio agora é contextual — nunca aponta
+para a própria página. Coberto por novo teste automatizado.

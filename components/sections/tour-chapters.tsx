@@ -8,8 +8,12 @@ import { siteContent } from '@/content/site-content'
  * e empilham em mobile mantendo a mesma ordem de leitura. Usa o poster do
  * vídeo, não o vídeo — quatro vídeos rodando juntos seria exatamente o tipo de
  * excesso que o sistema de motion proíbe.
+ *
+ * `context` evita CTA morto: na home, "Conhecer os passeios" leva a
+ * `/passeios`; dentro de `/passeios` esse link seria circular, então vira
+ * "Solicitar este roteiro", ligado direto ao fluxo de solicitação.
  */
-export function TourChapters() {
+export function TourChapters({ context = 'home' }: { context?: 'home' | 'passeios' }) {
   return (
     <section className="gt-dark bg-surface-sunken text-text" aria-labelledby="salvador">
       <div className="mx-auto w-full max-w-[82.5rem] px-5 py-20 sm:px-8 sm:py-28">
@@ -17,8 +21,9 @@ export function TourChapters() {
           Salvador do seu jeito.
         </h2>
         <p className="text-text-muted mt-4 max-w-[56ch] text-lg">
-          A mesma cidade muda conforme a hora, o trajeto e a companhia. Estes são
-          os pontos de partida mais pedidos — todos ajustáveis.
+          A mesma cidade muda conforme a hora, o trajeto e a companhia. Estas são
+          as regiões mais pedidas como ponto de partida — o roteiro dentro delas é
+          combinado com você, não fechado de antemão.
         </p>
 
         <div className="mt-16 flex flex-col gap-20 sm:gap-28">
@@ -55,12 +60,21 @@ export function TourChapters() {
                   </p>
                   <h3 className="font-display mt-4 text-2xl">{tour.name}</h3>
                   <p className="text-text-muted mt-4 max-w-[48ch] text-lg">{tour.summary}</p>
-                  <Link
-                    href="/passeios"
-                    className="text-text-accent mt-6 inline-flex min-h-11 items-center font-sans text-sm underline-offset-4 hover:underline"
-                  >
-                    Conhecer os passeios
-                  </Link>
+                  {context === 'passeios' ? (
+                    <Link
+                      href="/solicitar?servico=passeio-privativo"
+                      className="text-text-accent mt-6 inline-flex min-h-11 items-center font-sans text-sm underline-offset-4 hover:underline"
+                    >
+                      Solicitar este roteiro
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/passeios"
+                      className="text-text-accent mt-6 inline-flex min-h-11 items-center font-sans text-sm underline-offset-4 hover:underline"
+                    >
+                      Conhecer os passeios
+                    </Link>
+                  )}
                 </div>
               </article>
             )

@@ -213,17 +213,23 @@ const fleet: FleetCategory[] = [
   },
 ]
 
+/**
+ * Passeios — Etapa 09.
+ *
+ * São categorias editoriais, não pacotes fechados: o contrato proíbe publicar
+ * duração, sequência fixa de paradas, ingresso, guia, alimentação, preço,
+ * disponibilidade, política de crianças, acessibilidade, idioma ou área de
+ * embarque sem confirmação da operação — mesmo como placeholder. Por isso
+ * `itinerary` e `duration` ficam `pending`: a página descreve a região e a
+ * disposição da equipe em adaptar, não um roteiro prometido.
+ */
 const tours: Tour[] = [
   {
     slug: 'salvador-historico',
     name: 'Salvador histórico',
     summary:
-      'Ladeiras, igrejas e casarões do centro antigo, no horário em que a luz favorece e o movimento ainda deixa andar.',
-    itinerary: placeholder(
-      ['Pelourinho', 'Terreiro de Jesus', 'Elevador Lacerda', 'Mercado Modelo'],
-      'B-19',
-      'Roteiro provisório: confirmar pontos e ordem com a operação.',
-    ),
+      'Ladeiras, igrejas e casarões do centro antigo, no horário em que a luz favorece e o movimento ainda deixa andar. O trajeto é combinado com você antes de sair.',
+    itinerary: pending('B-19', 'Sem sequência fixa de paradas até a operação confirmar um roteiro real'),
     duration: pending('B-19'),
     media: confirmed(
       media('tour-historico', '/media/salvador-historico.mp4', 'Percurso por rua do centro histórico', {
@@ -234,10 +240,10 @@ const tours: Tour[] = [
   },
   {
     slug: 'baia-de-todos-os-santos',
-    name: 'Baía de Todos-os-Santos',
+    name: 'Baía e cidade baixa',
     summary:
-      'A cidade vista de onde ela faz sentido: a baía aberta, o porto e a linha do horizonte que separa a cidade alta da baixa.',
-    itinerary: placeholder(['Mercado Modelo', 'Cidade Baixa', 'Vista da baía'], 'B-19'),
+      'A cidade vista de onde ela faz sentido: a baía aberta, o porto e a linha do horizonte que separa a cidade alta da baixa. O ritmo é definido com você, não por um roteiro fixo.',
+    itinerary: pending('B-19', 'Sem sequência fixa de paradas até a operação confirmar um roteiro real'),
     duration: pending('B-19'),
     media: confirmed(
       media('tour-baia', '/media/baia-de-todos-os-santos.mp4', 'Vista aérea da Baía de Todos-os-Santos', {
@@ -248,13 +254,13 @@ const tours: Tour[] = [
   },
   {
     slug: 'orla',
-    name: 'Orla e entardecer',
+    name: 'Orla e pôr do sol',
     summary:
-      'Da Barra ao litoral norte, com parada onde o pôr do sol compensa — e sem pressa de voltar.',
-    itinerary: placeholder(['Farol da Barra', 'Orla marítima', 'Parada para o pôr do sol'], 'B-19'),
+      'Da Barra ao litoral norte, com tempo reservado para o entardecer — sem pressa de voltar e sem horário fechado.',
+    itinerary: pending('B-19', 'Sem sequência fixa de paradas até a operação confirmar um roteiro real'),
     duration: pending('B-19'),
     media: confirmed(
-      media('tour-orla', '/media/farol-da-barra.mp4', 'Farol da Barra ao entardecer', {
+      media('tour-orla', '/media/farol-da-barra-poster.jpg', 'Farol da Barra ao entardecer', {
         poster: confirmed('/media/farol-da-barra-poster.jpg', 'Etapa 06'),
       }),
       'Etapa 06',
@@ -264,7 +270,7 @@ const tours: Tour[] = [
     slug: 'sob-medida',
     name: 'Roteiro sob medida',
     summary:
-      'Você diz o que quer ver, quanto tempo tem e com quem viaja. A equipe monta o percurso e ajusta no caminho.',
+      'Você diz o que quer ver, quanto tempo tem e com quem viaja. A equipe monta o percurso com base nisso e ajusta no caminho.',
     itinerary: pending('B-19', 'Por definição não tem roteiro fixo'),
     duration: pending('B-19'),
     media: confirmed(

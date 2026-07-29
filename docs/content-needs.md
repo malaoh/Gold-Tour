@@ -47,9 +47,9 @@ roteiros de passeio (B-19).
 | B-14 | Autorização e ferramenta de analytics | Etapa 11 | nenhum instalado |
 | B-15 | Horário de atendimento | Etapa 11 | placeholder no ar |
 | B-16 | — | — | resolvido na Etapa 06 (vídeos importados) |
-| B-17 | Detalhamento operacional de cada serviço | Etapa 09 | placeholder no ar |
+| B-17 | Detalhamento operacional de cada serviço (o texto atual é placeholder redigido pela equipe do site, plausível mas não confirmado item a item pela operação) | Etapa 11+ | placeholder no ar |
 | B-18 | Política comercial: orçamento, cancelamento, preço | Etapa 11 | nunca em placeholder — proibido induzir decisão de compra |
-| B-19 | *novo.* Roteiro e duração real dos passeios | Etapa 09 | placeholder no ar |
+| B-19 | Roteiro e duração real dos passeios | Etapa 11+ | **corrigido na Etapa 09**: itinerário e duração voltaram a `pending` — não são mais placeholder, por proibição explícita do Prompt 09 |
 
 ### Contraditório / a esclarecer
 

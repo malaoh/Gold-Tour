@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'Serviços',
   description:
     'Transfer aeroporto, receptivo, motorista à disposição, passeios privativos e transporte para grupos e eventos em Salvador.',
+  alternates: { canonical: '/servicos' },
+  openGraph: {
+    title: 'Serviços | Gold Tour',
+    description:
+      'Transfer aeroporto, receptivo, motorista à disposição, passeios privativos e transporte para grupos e eventos em Salvador.',
+  },
 }
 
 export default function ServicosPage() {

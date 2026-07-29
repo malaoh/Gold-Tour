@@ -116,6 +116,19 @@ imagens candidatas (D-036).
 Nenhuma galeria adicional foi publicada — `gallery` permanece `pending` para
 as quatro categorias.
 
+## Passeios — Etapa 09
+
+| Capítulo | Mídia | Uso |
+|---|---|---|
+| Salvador histórico | `salvador-historico.mp4`/poster (Street photograph) | poster estático em `/passeios` e na home |
+| Baía e cidade baixa | `baia-de-todos-os-santos.mp4`/poster (Mercado Modelo) | idem |
+| Orla e pôr do sol | `farol-da-barra-poster.jpg` **sem vídeo** | reaproveita o poster do hero como imagem secundária, sem autoplay — Prompt 10 exige justamente isto |
+| Roteiro sob medida | `elevador-lacerda.mp4`/poster | idem primeiros dois |
+
+`TourChapters` só renderiza `<Image>` a partir do `poster`; nenhum vídeo toca
+nessa seção em nenhum breakpoint, então a regra "sem repetir o hero em
+autoplay" vale mesmo quando o arquivo de origem é o mesmo do hero.
+
 ## Biblioteca de referência UI/UX
 
 `Downloads/GOLD TOUR/ui-ux-pro-max-skill-main` é uma skill de inteligência de

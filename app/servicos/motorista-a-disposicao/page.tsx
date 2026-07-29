@@ -7,6 +7,11 @@ const service = siteContent.services.find((item) => item.slug === 'motorista-a-d
 export const metadata: Metadata = {
   title: service?.name,
   description: service?.shortDescription,
+  alternates: { canonical: '/servicos/motorista-a-disposicao' },
+  openGraph: {
+    title: service ? `${service.name} | Gold Tour` : undefined,
+    description: service?.shortDescription,
+  },
 }
 
 export default function Page() {

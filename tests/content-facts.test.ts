@@ -73,6 +73,13 @@ describe('site-content — invariantes do contrato', () => {
     expect(micro && publishable(micro.media)).toBeNull()
   })
 
+  it('nenhum passeio publica roteiro fechado ou duração', () => {
+    for (const tour of siteContent.tours) {
+      expect(publishable(tour.itinerary)).toBeNull()
+      expect(publishable(tour.duration)).toBeNull()
+    }
+  })
+
   it('acessibilidade nunca é afirmada sem confirmação da operação', () => {
     for (const vehicle of siteContent.fleet) {
       expect(publishable(vehicle.accessibility)).toBeNull()

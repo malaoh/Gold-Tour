@@ -1,6 +1,6 @@
 # Gold Tour — handoff
 
-Última atualização: 2026-07-29, ao fim da Etapa 08.
+Última atualização: 2026-07-29, ao fim da Etapa 09.
 
 ## Estado real
 
@@ -99,6 +99,22 @@ escolha depois de avisado do conflito. Ver `decision-log.md` D-038 a D-040 e
 5. **E2E não executado** — falta `npx playwright install chromium`.
 6. **Logo raster.** Funciona, mas não escala nem gera favicon/OG decentes.
 
+## Etapa 09 — o que mudou
+
+Corrigido um erro real: os 4 passeios publicavam roteiro fechado
+(`itinerary`) como placeholder — por exemplo, "Pelourinho, Terreiro de
+Jesus..." para "Salvador histórico". A própria Etapa 09 proíbe isso mesmo
+como dado provisório. `itinerary` e `duration` agora são `pending` em todas
+as categorias — a página fala em região e flexibilidade, não em paradas
+prometidas. Nomes ajustados: "Baía e cidade baixa", "Orla e pôr do sol".
+
+Páginas de serviço ganharam trilha de navegação, seção "Como solicitar" e
+links relacionados (frota, passeios). `/servicos`, `/passeios` e as 3 páginas
+de serviço com rota própria agora têm canonical e Open Graph. O CTA de cada
+capítulo de passeio é contextual: "Conhecer os passeios" na home,
+"Solicitar este roteiro" (→ `/solicitar?servico=passeio-privativo`) dentro de
+`/passeios` — nunca um link circular.
+
 ## Próxima ação
 
-**Etapa 09 — serviços, passeios e conteúdo de Salvador.**
+**Etapa 10 — pipeline de mídia e motion.**

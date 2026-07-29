@@ -110,6 +110,26 @@ em página clara. Foi implementado assim mesmo por decisão explícita e
 informada do proprietário, mas fica registrado como item a corrigir na Etapa
 12 — por exemplo, escurecendo o texto ou estreitando a faixa do gradiente.
 
+## Etapa 09 — serviços e passeios
+
+| Verificação | Resultado |
+|---|---|
+| Nenhum passeio publica roteiro fechado ou duração | confirmado — teste automatizado (`content-facts.test.ts`) |
+| CTA "Solicitar este roteiro" em `/passeios` vs "Conhecer os passeios" na home | verificado — `TourChapters` recebe `context` e não gera link circular |
+| Nenhum link vazio em `/passeios`, `/servicos/*` | confirmado via `document.querySelectorAll('a[href="#"], a:not([href])')` |
+| Canonical + Open Graph únicos em `/servicos`, `/passeios` e nas 3 páginas de serviço | confirmado |
+| Breadcrumb em página de serviço | confirmado (`Serviços / Nome do serviço`) |
+| `lint` / `typecheck` / `test` (16 testes) / `build` | todos verdes |
+
+**Achado corrigido nesta etapa:** os quatro passeios estavam publicando um
+roteiro fechado (`itinerary`) como `placeholder` — por exemplo, "Pelourinho,
+Terreiro de Jesus, Elevador Lacerda, Mercado Modelo" para "Salvador
+histórico". O Prompt 09 proíbe explicitamente publicar sequência fechada de
+paradas sem confirmação, mesmo como provisório. Corrigido: `itinerary` e
+`duration` voltaram a `pending` (somem da interface) para as 4 categorias; o
+texto de cada capítulo agora fala em região e flexibilidade, não em paradas
+prometidas.
+
 ## Pendências de QA
 
 - E2E não executado (navegadores do Playwright ausentes).
