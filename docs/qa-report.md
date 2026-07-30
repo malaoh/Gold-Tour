@@ -261,16 +261,84 @@ escolha estética em si, que não é da alçada de uma auditoria de QA reverter.
 Jornada completa até o WhatsApp reexecutada **na build de produção** depois
 de todas as correções desta etapa, com resultado correto.
 
-## Pendências de QA
+## Etapa 13 — auditoria de release
 
-- E2E não executado (navegadores do Playwright ausentes).
-- Leitor de tela real ainda não testado — só a estrutura semântica foi conferida.
-- Medição de Core Web Vitals em rede lenta: Etapa 12.
-- Páginas `/politica-de-privacidade` e `/termos` respondem **404** de propósito:
-  os textos não existem (B-11) e publicar política genérica criaria obrigação
-  legal que a operação não combinou. Os links seguem no rodapé e passam a
-  funcionar quando o conteúdo chegar.
-- **P2 (Etapa 12):** contraste do texto sobre o `MetalButton` gold em fundo
-  claro reprova AA em boa parte do gradiente (ver acima).
+### Rodado do zero
+
+| Verificação | Resultado |
+|---|---|
+| `rm -rf node_modules && npm ci` | reproduzível a partir do lockfile |
+| `npm run lint` | limpo |
+| `npm run typecheck` (`tsc --noEmit`) | limpo |
+| `npx vitest run` | 18/18 |
+| **`npx playwright test` (e2e, executado de verdade pela primeira vez)** | 6/6 (Chromium + WebKit) — 2 bugs reais nos próprios testes corrigidos, ver abaixo |
+| `npm run build` | verde, 22 rotas |
+| `next start` + jornada completa até o WhatsApp | confirmada na build de produção |
+| `npm audit` (produção) | 2 vulnerabilidades conhecidas (`postcss` dentro do Next, D-022) — sem mudança |
+| `npm audit` (dev) | +1 nova: `brace-expansion` (transitiva do ESLint, DoS-only, não vai a produção) |
+
+### E2E: primeira execução real, dois bugs de teste corrigidos
+
+Os testes e2e existiam desde a Etapa 04 mas nunca tinham rodado de fato (os
+navegadores do Playwright nunca foram baixados). Rodá-los pela primeira vez
+nesta etapa revelou que o **teste**, não o site, tinha dois problemas:
+
+1. Ele esperava a navegação real chegar a `api.whatsapp.com`, mas o app
+   primeiro navega para `wa.me`, que redireciona via rede externa de
+   verdade — lento, dependente de internet disponível no ambiente de CI, e
+   reformatava a query string (`%20` virava `+`) durante o redirect,
+   quebrando as asserções.
+2. O projeto "mobile" usa o motor WebKit (`devices['iPhone 13']`), que nunca
+   tinha sido baixado.
+
+Corrigido: `page.route('**://wa.me/**', ...)` intercepta o primeiro salto
+(sem depender de rede externa nem sofrer reformatação), e os navegadores
+Chromium e WebKit foram instalados (D-059, D-060).
+
+### Achado de performance nos e2e
+
+O `next dev` emitiu um aviso real durante a execução: a imagem do Corolla em
+`/frota` era a LCP da rota sem `priority`. Corrigido — `FleetCard` ganhou uma
+prop `priority`, usada só no primeiro card de `/frota` (D-061). Não aplicada
+por padrão para não competir com o vídeo do hero na home.
+
+### Achado sério, documentado (não corrigível nesta sessão): status HTTP do `notFound()`
+
+`/termos`, `/design-system` e um slug inválido em `/frota/[slug]` respondem
+**HTTP 200** com o conteúdo de "não encontrado" embutido, em vez de 404 de
+verdade. Investigado a fundo, não é bug do site: é uma limitação **conhecida
+e sem solução limpa do Next.js App Router**
+([vercel/next.js#51021](https://github.com/vercel/next.js/issues/51021),
+[#76474](https://github.com/vercel/next.js/issues/76474)) — `notFound()`
+sob um boundary de Suspense (o projeto tem `app/loading.tsx` global) transmite
+a resposta via streaming, e o Next não traduz o digest de erro em status
+HTTP nesse caminho. Testado em renderização estática e `force-dynamic`:
+mesmo resultado nos dois — a mudança de estratégia de renderização não
+resolve.
+
+**Mitigação real, verificada:** o próprio Next injeta automaticamente
+`<meta name="robots" content="noindex">` nessas páginas mesmo com status 200
+(confirmado inspecionando o HTML gerado), e nenhuma delas tem link interno
+em lugar nenhum do site — `/design-system` também está em `robots.txt`
+(disallow). O risco de indexação por um crawler é baixo, mas não nulo. Ver
+D-062.
+
+## Pendências de QA (estado final, Etapa 13)
+
+- ~~E2E não executado~~ — **executado nesta etapa**: 6/6, Chromium + WebKit.
+- Leitor de tela real (VoiceOver/NVDA) ainda não testado — só a estrutura
+  semântica (landmarks, headings, labels, `aria-*`) foi verificada por script
+  e por navegação de teclado real.
+- Medição de Core Web Vitals em rede lenta emulada (CPU/rede throttled): o
+  Browser pane deste ambiente não expõe throttling; compensado pelos números
+  de payload real (314 KB mobile, Etapa 10).
+- `/termos` e slugs inválidos de `/frota/[slug]` seguem sem conteúdo
+  publicável — corretos por decisão de conteúdo (B-11, B-18). `/design-system`
+  é interna. As três respondem HTTP 200 em vez de 404 por limitação do
+  Next.js (D-062), não por decisão de conteúdo.
+- ~~Contraste do `MetalButton` gold reprova AA~~ — **corrigido na Etapa 12**
+  (D-056).
 - Capacidade de passageiros da frota (3/15/26/6) é placeholder e precisa de
   confirmação real antes de qualquer divulgação (B-12).
+- WhatsApp, e-mail, endereço, Instagram e horário seguem como placeholder
+  publicado — ver `npm run placeholders` e `handoff.md`.

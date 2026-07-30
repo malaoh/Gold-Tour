@@ -17,7 +17,7 @@ Status possíveis: `pendente` · `em andamento` · `APROVADA` · `REPROVADA`
 | 10 | Pipeline de mídia e motion | APROVADA | 2026-07-29 | 5/7 vídeos aprovados e documentados; enquadramento do hero corrigido por breakpoint; LCP/CLS medidos |
 | 11 | Confiança, contato, legal, SEO e idiomas | APROVADA | 2026-07-29 | FAQ corrigida, política de privacidade real publicada, sitemap/robots/favicon prontos |
 | 12 | Integração, acessibilidade, performance e QA | APROVADA | 2026-07-29 | 4 achados reais corrigidos (2 P1, 2 P2); 8 jornadas testadas |
-| 13 | Produção, entrega e handoff final | pendente | — | Hospedagem/domínio não definidos |
+| 13 | Produção, entrega e handoff final | APROVADA | 2026-07-29 | Auditoria de release completa; NÃO publicado (sem hospedagem definida e WhatsApp ainda placeholder) |
 
 ## Etapa 00 — auditoria
 
@@ -158,3 +158,19 @@ As 8 jornadas do prompt testadas de ponta a ponta, incluindo o WhatsApp final
 reexecutado **na build de produção** depois das correções. `lint`,
 `typecheck`, 18 testes e build verdes. Ver `qa-report.md` para a tabela
 completa e o comparativo antes/depois.
+
+## Etapa 13 — produção e handoff final
+
+Instalação limpa (`rm -rf node_modules && npm ci`), lint, typecheck, 18
+testes unitários, **e2e executado de verdade pela primeira vez** (6/6, dois
+bugs reais nos testes corrigidos — dependiam de rede externa e do WebKit
+nunca instalado), build de produção, jornada completa até o WhatsApp
+reconfirmada no build. Um aviso real de performance corrigido (LCP sem
+`priority` em `/frota`). Um problema sério investigado e documentado: rotas
+com `notFound()` respondem HTTP 200 em vez de 404 — limitação conhecida e
+sem solução limpa do Next.js App Router (não bug do site), mitigada pelo
+`noindex` automático do próprio Next e pela ausência de links internos.
+
+**Não publicado.** Sem hospedagem/domínio definidos (B-09) e sem autorização
+explícita para publicar. Checklist e comandos exatos de deploy preparados em
+`docs/handoff.md`.

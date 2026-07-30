@@ -27,8 +27,8 @@ export default function FrotaPage() {
       <section className="bg-surface">
         <div className="mx-auto w-full max-w-[82.5rem] px-5 py-20 sm:px-8">
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {siteContent.fleet.map((vehicle) => (
-              <FleetCard key={vehicle.slug} vehicle={vehicle} />
+            {siteContent.fleet.map((vehicle, index) => (
+              <FleetCard key={vehicle.slug} vehicle={vehicle} priority={index === 0} />
             ))}
           </div>
         </div>

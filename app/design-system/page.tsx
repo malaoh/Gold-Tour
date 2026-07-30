@@ -7,7 +7,20 @@ import { SheetDemo } from '@/components/ui/sheet-demo'
 
 /**
  * Página interna de demonstração do design system (Etapa 03).
- * Não é parte do site: em produção ela responde 404, e o robots marca noindex.
+ * Não é parte do site: `notFound()` esconde o conteúdo em produção e o
+ * `robots` marca noindex.
+ *
+ * Achado na auditoria de release (Etapa 13), não corrigido: esta rota e
+ * `/termos` respondem HTTP 200 com o conteúdo de "não encontrado" embutido,
+ * em vez de status 404 de verdade — em qualquer modo de renderização
+ * testado (estático e `force-dynamic`). O digest de erro
+ * (`NEXT_HTTP_ERROR_FALLBACK;404`) chega certo no payload React, mas o
+ * `next start` desta versão não traduz isso no código de status HTTP. Só a
+ * rota "coringa" (`app/not-found.tsx`, para qualquer URL sem `page.tsx`
+ * correspondente) retorna 404 real — verificado. Mitigado por `robots.txt`
+ * (disallow) e por não haver link interno para nenhuma das duas rotas; o
+ * conserto correto é reportar o bug ao Next.js ou fixar outra versão.
+ * Ver docs/qa-report.md.
  */
 export const metadata: Metadata = {
   title: 'Design system — uso interno',

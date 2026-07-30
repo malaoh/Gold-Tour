@@ -29,6 +29,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function VeiculoPage({ params }: Params) {
   const { slug } = await params
   const vehicle = siteContent.fleet.find((item) => item.slug === slug)
+  // Achado na Etapa 13: para um slug fora dos 4 gerados por
+  // generateStaticParams, este notFound() renderiza o conteúdo correto mas
+  // com HTTP 200, não 404 — mesmo bug do Next documentado em
+  // app/design-system/page.tsx e docs/qa-report.md. Nenhum link do site
+  // aponta para um slug inválido, então o risco prático é baixo.
   if (!vehicle) notFound()
 
   const asset = publishable(vehicle.media)

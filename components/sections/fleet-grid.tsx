@@ -10,7 +10,15 @@ import type { FleetCategory } from '@/content/schema'
  * Quando não existe foto publicável, o lugar da imagem recebe um painel com o
  * monograma — nunca uma foto de outro veículo, nunca um espaço vazio.
  */
-export function FleetCard({ vehicle }: { vehicle: FleetCategory }) {
+export function FleetCard({
+  vehicle,
+  priority = false,
+}: {
+  vehicle: FleetCategory
+  /** Só o primeiro card de `/frota` — lá a grade é a LCP da rota. Na home,
+   * quem é LCP é o hero, e marcar `priority` aqui competiria com ele. */
+  priority?: boolean
+}) {
   const asset = publishable(vehicle.media)
   const src = asset ? publishable(asset.src) : null
   const alt = asset ? publishable(asset.alt) : null
@@ -27,6 +35,7 @@ export function FleetCard({ vehicle }: { vehicle: FleetCategory }) {
             fill
             sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
             className="object-cover"
+            priority={priority}
           />
         ) : (
           <div className="flex size-full flex-col items-center justify-center gap-2 px-6 text-center">

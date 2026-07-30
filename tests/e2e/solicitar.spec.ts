@@ -3,9 +3,23 @@ import { expect, test } from '@playwright/test'
 /**
  * O caminho até o WhatsApp é o único ponto do site onde uma falha silenciosa
  * custa uma venda. O teste assere a URL montada — não o comportamento do
- * WhatsApp, que não é nosso.
+ * WhatsApp em si.
+ *
+ * A navegação real para api.whatsapp.com é interceptada: deixar o Chromium
+ * de teste sair para a internet de verdade é lento, depende de rede externa
+ * disponível no ambiente de CI e bate desnecessariamente na infraestrutura
+ * do WhatsApp a cada execução. `page.route` captura a URL final sem
+ * completar a navegação.
  */
 test('home → escolha de serviço → WhatsApp com a mensagem correta', async ({ page }) => {
+  // O app navega para wa.me, que redireciona (rede real) para
+  // api.whatsapp.com e reformata a query string pelo caminho (espaço vira
+  // "+" em vez de "%20"). Interceptar o primeiro salto evita depender da
+  // rede E evita esse reformato, preservando a URL exata que o app montou.
+  await page.route('**://wa.me/**', (route) =>
+    route.fulfill({ status: 200, contentType: 'text/plain', body: 'ok', headers: {} }),
+  )
+
   await page.goto('/')
 
   await page.getByRole('link', { name: 'Transfer aeroporto' }).first().click()
@@ -20,7 +34,7 @@ test('home → escolha de serviço → WhatsApp com a mensagem correta', async (
   await page.getByLabel('Detalhes do trajeto').fill('Aeroporto para a Barra, voo G3 1234')
 
   await page.getByRole('button', { name: /Enviar pelo WhatsApp/ }).click()
-  await page.waitForURL(/whatsapp\.com/)
+  await page.waitForURL(/wa\.me/, { timeout: 10_000 })
 
   const url = decodeURIComponent(page.url())
   expect(url).toContain('Serviço: Transfer aeroporto')
