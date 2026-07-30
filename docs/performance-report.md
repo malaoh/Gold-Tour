@@ -110,3 +110,41 @@ diretamente (314 KB é compatível com 4G lento em poucos segundos), vídeo
 comprovadamente ausente em mobile, e `preload="none"` em qualquer vídeo que
 exista. Teste em dispositivo real ou emulação de CPU/rede fica registrado como
 pendência da Etapa 12.
+
+## Rodada de imersão — palco de capítulos (2026-07-29)
+
+Medido na build de produção (`next build` + `next start`), viewport 390×844.
+
+### Antes / depois do portão de visibilidade
+
+O palco adiciona 4 vídeos à home. A primeira implementação disparava
+play/preload na hidratação, sem checar se a seção estava perto da tela:
+
+| Métrica | Sem portão (1ª versão) | Com portão (final) |
+|---|---:|---:|
+| Payload total na entrada | **4065 KB** | **1015 KB** |
+| Vídeos de capítulo baixados na entrada | 2 (3,0 MB) | **0** |
+| LCP | 140 ms | 420 ms |
+| CLS | 0 | 0 |
+| Elementos `<video>` no DOM | 4 | 4 |
+
+Redução de **75% no payload de entrada**. Os vídeos passam a ser buscados
+somente quando a seção chega a 300px da viewport — verificado: ao rolar até
+lá, exatamente 2 arquivos são baixados (o ativo e o próximo) e 1 está tocando.
+
+O LCP subiu de 140 ms para 420 ms porque, sem os vídeos competindo por banda
+na entrada, o navegador prioriza diferente — ainda assim está muito abaixo da
+meta de 2,5 s. Ambas as medições são em localhost, sem latência real.
+
+### Regras de mídia do palco (verificadas em runtime)
+
+| Regra | Status |
+|---|---|
+| Não carregar todos os vídeos na entrada | ✅ zero na entrada |
+| Capítulos sob demanda | ✅ portão de 300px |
+| Pré-carregar somente o próximo | ✅ `preload` = `[auto, auto, none, none]` |
+| Apenas um vídeo ativo | ✅ medido: `playingCount: 1` |
+| Pausar fora da viewport | ✅ portão pausa tudo ao sair |
+| Pausar com aba oculta | ✅ `visibilitychange` |
+| Dimensões reservadas | ✅ CLS 0 |
+| Sem frame preto no crossfade | ✅ poster de cada capítulo já pintado sob o vídeo |
