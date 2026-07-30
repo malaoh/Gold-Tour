@@ -72,8 +72,8 @@ export function Monogram({
       src={`/brand/monograma${suffix(tone)}.png`}
       alt=""
       aria-hidden="true"
-      width={70}
-      height={80}
+      width={190}
+      height={150}
       style={{ width: size, height: 'auto' }}
       className={className}
     />

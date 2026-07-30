@@ -1,6 +1,6 @@
 # Gold Tour — handoff
 
-Última atualização: 2026-07-29, ao fim da Etapa 11.
+Última atualização: 2026-07-29, ao fim da Etapa 12.
 
 ## Estado real
 
@@ -144,6 +144,18 @@ o comportamento técnico do código, verificável sem depender da operação);
 `/termos` segue em 404. `sitemap.ts` e `robots.ts` criados; canonical/OG
 completados em `/`, `/frota`, `/contato`.
 
+## Etapa 12 — o que mudou
+
+Auditoria completa (não autoavaliação) encontrou 4 problemas reais que
+passaram pelas etapas anteriores, todos corrigidos: (1) CTA principal sem
+foco de teclado visível — o ring do shadcn não renderizava neste projeto;
+(2) CTA do header aparecendo também em mobile por conflito de cascata CSS;
+(3) contraste do texto do CTA em fundo claro (1,16:1 no pior ponto, agora
+13,9:1); (4) monograma distorcido em toda a UI, não só no favicon —
+dimensões do componente desatualizadas após o recorte da Etapa 11. As 8
+jornadas do protocolo testadas, incluindo o WhatsApp reexecutado na **build
+de produção** depois das correções.
+
 ## Próxima ação
 
-**Etapa 12 — integração, acessibilidade, performance e QA completo.**
+**Etapa 13 — produção, entrega e handoff final.**

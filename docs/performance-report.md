@@ -94,6 +94,14 @@ vídeo/motion; registrado aqui porque a medição desta etapa foi o que revelou 
 número. Não corrigido agora — envolveria rever a decisão do proprietário
 sobre o componente, fora do escopo desta etapa.
 
+## Etapa 12 — nota
+
+Nenhuma métrica nova de performance foi coletada nesta etapa; os números
+acima (build de produção, Etapa 10) continuam válidos — os quatro achados da
+Etapa 12 foram de acessibilidade e responsividade (foco de teclado, CTA
+duplicado em mobile), não de payload ou tempo de carregamento. O JS acima da
+meta (P2 registrado na Etapa 10) segue como pendência para revisão futura.
+
 ## Teste em condição limitada
 
 Rede lenta e CPU limitada não foram emuladas nesta etapa (o Browser pane não

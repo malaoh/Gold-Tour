@@ -16,7 +16,7 @@ Status possíveis: `pendente` · `em andamento` · `APROVADA` · `REPROVADA`
 | 09 | Serviços, passeios e conteúdo de Salvador | APROVADA | 2026-07-29 | CTAs contextuais conectados ao fluxo; roteiro fechado removido dos passeios |
 | 10 | Pipeline de mídia e motion | APROVADA | 2026-07-29 | 5/7 vídeos aprovados e documentados; enquadramento do hero corrigido por breakpoint; LCP/CLS medidos |
 | 11 | Confiança, contato, legal, SEO e idiomas | APROVADA | 2026-07-29 | FAQ corrigida, política de privacidade real publicada, sitemap/robots/favicon prontos |
-| 12 | Integração, acessibilidade, performance e QA | pendente | — | |
+| 12 | Integração, acessibilidade, performance e QA | APROVADA | 2026-07-29 | 4 achados reais corrigidos (2 P1, 2 P2); 8 jornadas testadas |
 | 13 | Produção, entrega e handoff final | pendente | — | Hospedagem/domínio não definidos |
 
 ## Etapa 00 — auditoria
@@ -140,3 +140,21 @@ completados em `/`, `/frota` e `/contato`. Nenhum dado estruturado JSON-LD
 publicado (seria `LocalBusiness` sem endereço/telefone confirmados). Nenhum
 seletor de idioma, nenhum banner de consentimento — nenhum dos dois é
 necessário no estado atual.
+
+## Etapa 12 — QA completo
+
+Auditoria completa encontrou 4 problemas reais que as etapas anteriores não
+tinham pego, todos corrigidos:
+
+1. **P1** — CTA principal sem indicador de foco visível no teclado (o ring do
+   shadcn não renderizava neste projeto).
+2. **P1** — CTA do header aparecia também em mobile (a base do `LiquidLink`
+   força `inline-flex`, vencendo o `hidden` externo na cascata).
+3. **P2** — contraste do texto do CTA em fundo claro (1,16:1 no pior ponto).
+4. **P2** — monograma distorcido em toda a UI, não só no favicon (dimensões
+   do componente não acompanharam o recorte corrigido na Etapa 11).
+
+As 8 jornadas do prompt testadas de ponta a ponta, incluindo o WhatsApp final
+reexecutado **na build de produção** depois das correções. `lint`,
+`typecheck`, 18 testes e build verdes. Ver `qa-report.md` para a tabela
+completa e o comparativo antes/depois.

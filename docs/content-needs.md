@@ -1,6 +1,6 @@
 # Gold Tour — dados e mídias faltantes
 
-Atualizado na Etapa 11. Nada desta lista pode ser inventado. Um dado
+Atualizado na Etapa 12. Nada desta lista pode ser inventado. Um dado
 `pending` some da interface; um dado `placeholder` vai ao ar mas aparece em
 `npm run placeholders` até ser trocado pelo real (ver `content-model.md`).
 

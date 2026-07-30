@@ -53,7 +53,12 @@ Button.displayName = 'Button'
 export { Button, buttonVariants, liquidbuttonVariants, LiquidButton }
 
 const liquidbuttonVariants = cva(
-  "inline-flex items-center transition-colors justify-center cursor-pointer gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  // O ring baseado em box-shadow do shadcn (`focus-visible:ring-*`) não
+  // renderizava neste projeto (box-shadow ficava zerado). Em vez de
+  // depurar a integração, removido `outline-none` e as classes de ring:
+  // o anel de foco global do site (`:focus-visible` em globals.css) já
+  // cobre todo elemento interativo e é o que está testado e funcionando.
+  "inline-flex items-center transition-colors justify-center cursor-pointer gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -253,8 +258,11 @@ const colorVariants: Record<
     outer: 'bg-gradient-to-b from-[#917100] to-[#EAD98F]',
     inner: 'bg-gradient-to-b from-[#FFFDDD] via-[#856807] to-[#FFF1B3]',
     button: 'bg-gradient-to-b from-[#FFEBA1] to-[#9B873F]',
-    textColor: 'text-[#FFFDE5]',
-    textShadow: '[text-shadow:_0_-1px_0_rgb(178_140_2_/_100%)]',
+    // Texto claro (#FFFDE5) media 1,16:1 contra o topo do gradiente e 3,45:1
+    // contra a base — reprova AA nos dois pontos. Grafite da marca passa em
+    // 13,9:1 e 4,67:1 no mesmo gradiente, sem precisar mudar o efeito visual.
+    textColor: 'text-[#1C1F23]',
+    textShadow: '',
   },
   bronze: {
     outer: 'bg-gradient-to-b from-[#864813] to-[#E9B486]',
@@ -296,7 +304,12 @@ export const metalButtonVariants = (
       filter: isHovered && !isPressed && !isTouchDevice ? 'brightness(1.05)' : 'none',
     },
     button: cn(
-      'relative z-10 m-[1px] rounded-md inline-flex h-11 transform-gpu cursor-pointer items-center justify-center overflow-hidden rounded-md px-6 py-2 text-sm leading-none font-semibold will-change-transform outline-none',
+      // Sem `outline-none`: o CTA precisa do mesmo anel de foco de qualquer
+      // outro link do site (regra do design system — "foco nunca removido").
+      // Removido daqui em vez de compensado com `focus-visible:ring-*`
+      // porque `overflow-hidden` no mesmo elemento cortaria um ring baseado
+      // em box-shadow; outline não é afetado por overflow.
+      'relative z-10 m-[1px] rounded-md inline-flex h-11 transform-gpu cursor-pointer items-center justify-center overflow-hidden px-6 py-2 text-sm leading-none font-semibold will-change-transform',
       colors.button,
       colors.textColor,
       colors.textShadow,

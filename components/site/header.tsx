@@ -117,13 +117,17 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <LiquidLink
-            href="/solicitar"
-            size="default"
-            className="hidden whitespace-nowrap md:inline-flex"
-          >
-            Solicitar orçamento
-          </LiquidLink>
+          {/*
+           * O wrapper controla o `hidden`/`md:inline-flex`, não o próprio
+           * LiquidLink: sua base já força `inline-flex` incondicional, que
+           * vence o `hidden` passado por className na mesma cascata —
+           * sem o wrapper, este CTA nunca desaparecia no mobile.
+           */}
+          <div className="hidden md:inline-flex">
+            <LiquidLink href="/solicitar" size="default" className="whitespace-nowrap">
+              Solicitar orçamento
+            </LiquidLink>
+          </div>
 
           <button
             ref={triggerRef}
